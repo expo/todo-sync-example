@@ -1,6 +1,7 @@
 import { EvilIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Text, View, Pressable, StyleSheet } from "react-native";
 import Animated, { BounceIn, SlideInRight } from "react-native-reanimated";
+import { RowProps, useCell } from "tinybase/lib/ui-react";
 
 const AnimatedCheckmark = Animated.createAnimatedComponent(AntDesign);
 
@@ -15,6 +16,44 @@ type TodoProps = {
   toggleTodo: (id: number, completed: boolean) => void;
   deleteWord: (id: number) => void;
 };
+
+export function DataRow({ store, tableId, rowId }: RowProps) {
+  const todo = useCell(tableId, rowId, "text", store);
+  const completed = useCell(tableId, rowId, "completed", store);
+  return (
+    <Animated.View entering={SlideInRight}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.container,
+          {
+            borderColor: completed ? "#10cc1f" : "rgba(0,0,0,.5)",
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}
+        onPress={() => {}}
+      >
+        <Text style={styles.title}>{todo}</Text>
+        <View style={styles.status}>
+          {completed ? (
+            <AnimatedCheckmark
+              entering={BounceIn}
+              name="check"
+              size={24}
+              color="#10cc1f"
+            />
+          ) : (
+            <MaterialIcons
+              name="check-box-outline-blank"
+              size={24}
+              color="black"
+            />
+          )}
+          <EvilIcons name="trash" size={32} color="red" onPress={() => {}} />
+        </View>
+      </Pressable>
+    </Animated.View>
+  );
+}
 
 export function TodoRow({ todo, toggleTodo, deleteWord }: TodoProps) {
   return (

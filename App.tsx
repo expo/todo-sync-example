@@ -1,14 +1,11 @@
 import "expo-dev-client";
-import { initDatabase } from "./db/init";
+import { initDatabase, db } from "./db/init";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button, FlatList } from "react-native";
 import { TodoRow } from "./todo";
 import { useTodoList } from "./useTodoList";
-import { store } from "./store";
 
 initDatabase();
-
-console.log(store.getValues());
 
 export default function App() {
   const {

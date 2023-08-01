@@ -13,9 +13,7 @@ import {
 } from "./persisters/sqlite/create";
 import { db } from "./db/init";
 
-export const store = createStore();
-
-store.setTablesSchema({
+export const store = createStore().setTablesSchema({
   todos: {
     id: { type: "number" },
     text: { type: "string" },
@@ -23,15 +21,7 @@ store.setTablesSchema({
   },
 });
 
-new Array(5).fill(0).forEach((_, i) => {
-  store.setRow("todos", `${i}`, {
-    id: i,
-    text: generateRandomTodo(),
-    completed: false,
-  });
-});
-
-const createExpoSqluLitePersister = (
+export const createExpoSqlitePersister = (
   store: Store,
   db: SQLiteDatabase,
   configOrStoreTableName?: DatabasePersisterConfig | string
@@ -49,11 +39,10 @@ const createExpoSqluLitePersister = (
     (subscription: Subscription): void => subscription.remove()
   );
 
-const persister = createExpoSqluLitePersister(store, db, {
+export const persister = createExpoSqlitePersister(store, db, {
   mode: "tabular",
   tables: {
     load: { todos: "todos" },
     save: { todos: "todos" },
   },
 });
-persister.save();

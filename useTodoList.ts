@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { db } from "./db/init";
 import { Todo } from "./todo";
 import { generateRandomTodo } from "./utils";
+import { persister, store } from "./store";
 
 export function useTodoList() {
   const ws = useRef(new WebSocket(`ws://localhost:3000`)).current;
@@ -20,7 +21,7 @@ export function useTodoList() {
     );
   }, []);
 
-  const addTodo = useCallback(() => {
+  const addTodo = useCallback(async () => {
     db.exec(
       [
         {
@@ -34,6 +35,8 @@ export function useTodoList() {
         fetchTodos();
       }
     );
+    await persister.load();
+    console.log(store.getValues());
   }, []);
 
   const toggleStatus = useCallback((id: number, completed: boolean) => {
@@ -101,14 +104,6 @@ export function useTodoList() {
   useEffect(() => {
     const sub = db.onDatabaseChange((_, changes) => {
       ws.send(JSON.stringify(changes));
-    });
-
-    return () => sub.remove();
-  }, []);
-
-  useEffect(() => {
-    const sub = db.onSqliteUpdate((result) => {
-      console.log({ result });
     });
 
     return () => sub.remove();
