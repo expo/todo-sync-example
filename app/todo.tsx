@@ -9,6 +9,7 @@ import {
 } from "tinybase/lib/ui-react";
 
 const AnimatedCheckmark = Animated.createAnimatedComponent(AntDesign);
+const ICON_SIZE = 24;
 
 export type Todo = {
   id: number;
@@ -48,13 +49,13 @@ export function TodoRow({ tableId, rowId }: RowProps) {
             <AnimatedCheckmark
               entering={BounceIn}
               name="check"
-              size={24}
+              size={ICON_SIZE}
               color="#10cc1f"
             />
           ) : (
             <MaterialIcons
               name="check-box-outline-blank"
-              size={24}
+              size={ICON_SIZE}
               color="black"
             />
           )}
