@@ -1,7 +1,15 @@
 import "expo-dev-client";
 import { initDatabase, db } from "./app/db/init";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { TodoRow } from "./app/todo";
 import { useSync } from "./app/useSync";
 import {
@@ -14,6 +22,9 @@ import {
 import { createExpoSqlitePersister, store } from "./app/store";
 import { generateRandomTodo, nanoid } from "./app/utils";
 import { useCallback, useEffect } from "react";
+
+const uri =
+  "https://images.unsplash.com/photo-1631891318333-dc891d26f52a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGxhbmRtYXJrcyUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60";
 
 export default function App() {
   return (
@@ -59,15 +70,29 @@ function TodoList() {
     <Provider store={store}>
       <View style={styles.container}>
         <StatusBar style="auto" />
-        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 60 }}>
-          Todo List
-        </Text>
-        <Button title="Add Todo" onPress={addTodo} />
-        <Button title="Delete All Todos" onPress={deleteTodo} />
-        <Button
-          title={syncEnabled ? "Disable Sync" : "Enable"}
-          onPress={() => setSyncEnabled((s) => !s)}
+        <Image
+          source={{ uri }}
+          style={StyleSheet.absoluteFillObject}
+          blurRadius={15}
         />
+        <View style={{ gap: 10, marginTop: 60 }}>
+          <TouchableOpacity onPress={addTodo} style={styles.btn}>
+            <Text style={styles.btnText}>Add Todo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={deleteTodo} style={styles.btn}>
+            <Text style={styles.btnText}>Delete All Todos</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setSyncEnabled((s) => !s)}
+            style={styles.btn}
+          >
+            <Text style={styles.btnText}>
+              {syncEnabled ? "Disable Sync" : "Enable"}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <ScrollView
           style={{ width: "100%" }}
           contentContainerStyle={{ padding: 10, paddingBottom: 44 }}
@@ -88,5 +113,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    gap: 10,
   },
+  btn: { backgroundColor: "white", padding: 10, borderRadius: 5 },
+  btnText: { fontSize: 18, textAlign: "center" },
 });

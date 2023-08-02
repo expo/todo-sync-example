@@ -43,24 +43,23 @@ export function TodoRow({ tableId, rowId }: RowProps) {
         ]}
         onPress={toggleTodo}
       >
+        {completed ? (
+          <AnimatedCheckmark
+            entering={BounceIn}
+            name="check"
+            size={ICON_SIZE}
+            color="#10cc1f"
+          />
+        ) : (
+          <MaterialIcons
+            name="check-box-outline-blank"
+            size={ICON_SIZE}
+            color="black"
+          />
+        )}
         <Text style={styles.title}>{todo}</Text>
-        <View style={styles.status}>
-          {completed ? (
-            <AnimatedCheckmark
-              entering={BounceIn}
-              name="check"
-              size={ICON_SIZE}
-              color="#10cc1f"
-            />
-          ) : (
-            <MaterialIcons
-              name="check-box-outline-blank"
-              size={ICON_SIZE}
-              color="black"
-            />
-          )}
-          <EvilIcons name="trash" size={32} color="red" onPress={deleteRow} />
-        </View>
+
+        <EvilIcons name="trash" size={32} color="red" onPress={deleteRow} />
       </Pressable>
     </Animated.View>
   );
@@ -75,7 +74,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 1,
+    borderWidth: 2,
+    backgroundColor: "white",
+    gap: 10,
   },
   title: {
     textAlign: "left",
