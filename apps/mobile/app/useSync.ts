@@ -6,8 +6,9 @@ export function useSync() {
   const [syncEnabled, setSyncEnabled] = useState(true);
 
   useEffect(() => {
-    ws.onmessage = async (e) => {
+    const handleMessage = async (e) => {
       if (!syncEnabled) return;
+
       const data = JSON.parse(e.data);
       const rows = data[0].rows;
 
@@ -25,17 +26,30 @@ export function useSync() {
         );
       }
     };
+
+    ws.onmessage = handleMessage;
   }, [syncEnabled]);
 
   useEffect(() => {
+    const maybeSendChanges = async () => {
+      if (syncEnabled) {
+        const changes = await requestChanges();
+        ws.send(JSON.stringify(changes));
+      }
+    };
+
+    // Subscribe to changes
     const subscription = db.onDatabaseChange(async (result) => {
       if (result.tableName.includes("__crsql_")) return;
-      const changes = await requestChanges();
-      ws.send(JSON.stringify(changes));
+      maybeSendChanges();
     });
 
+    // Also maybe send them right away, in case changes happened while sync was
+    // disabled
+    maybeSendChanges();
+
     return () => subscription.remove();
-  }, []);
+  }, [syncEnabled]);
 
   return {
     syncEnabled,
