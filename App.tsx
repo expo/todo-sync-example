@@ -97,7 +97,7 @@ function TodoList() {
             style={styles.btn}
           >
             <Text style={styles.btnText}>
-              {syncEnabled ? "Disable Sync" : "Enable"}
+              {syncEnabled ? "Disable" : "Enable"} Sync
             </Text>
           </TouchableOpacity>
         </View>
