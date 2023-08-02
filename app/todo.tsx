@@ -1,5 +1,5 @@
 import { EvilIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { Text, View, Pressable, StyleSheet } from "react-native";
+import { Text, Pressable, StyleSheet } from "react-native";
 import Animated, { BounceIn, SlideInRight } from "react-native-reanimated";
 import {
   RowProps,
