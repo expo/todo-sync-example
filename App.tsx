@@ -75,14 +75,22 @@ function TodoList() {
           style={StyleSheet.absoluteFillObject}
           blurRadius={15}
         />
-        <View style={{ gap: 10, marginTop: 60 }}>
-          <TouchableOpacity onPress={addTodo} style={styles.btn}>
-            <Text style={styles.btnText}>Add Todo</Text>
-          </TouchableOpacity>
+        <View style={{ gap: 10, marginTop: 60, width: "80%" }}>
+          <View style={{ flexDirection: "row", gap: 10 }}>
+            <TouchableOpacity
+              onPress={addTodo}
+              style={[styles.btn, { flex: 1 }]}
+            >
+              <Text style={styles.btnText}>Add Todo</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={deleteTodo} style={styles.btn}>
-            <Text style={styles.btnText}>Delete All Todos</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={deleteTodo}
+              style={[styles.btn, { flex: 1 }]}
+            >
+              <Text style={styles.btnText}>Delete All Todos</Text>
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
             onPress={() => setSyncEnabled((s) => !s)}
