@@ -63,14 +63,14 @@ function TodoList() {
           Todo List
         </Text>
         <Button title="Add Todo" onPress={addTodo} />
-        <Button title="Drop All Todos" onPress={deleteTodo} />
+        <Button title="Delete All Todos" onPress={deleteTodo} />
         <Button
           title={syncEnabled ? "Disable Sync" : "Enable"}
           onPress={() => setSyncEnabled((s) => !s)}
         />
         <ScrollView
           style={{ width: "100%" }}
-          contentContainerStyle={{ padding: 10 }}
+          contentContainerStyle={{ padding: 10, paddingBottom: 44 }}
         >
           <SortedTableView
             store={store}
