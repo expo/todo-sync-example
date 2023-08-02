@@ -2,28 +2,28 @@ import {
   DatabasePersisterConfig,
   Persister,
   PersisterListener,
-} from '../../types/persisters';
-import {Cmd} from './commands';
-import {Store} from '../../types/store';
-import {collValues} from '../../common/coll';
-import {createJsonSqlitePersister} from './json';
-import {createTabularSqlitePersister} from './tabular';
-import {getConfigStructures} from './config';
+} from "../../types/persisters";
+import { Cmd } from "./commands";
+import { Store } from "../../types/store";
+import { collValues } from "../../common/coll";
+import { createJsonSqlitePersister } from "./json";
+import { createTabularSqlitePersister } from "./tabular";
+import { getConfigStructures } from "./config";
 
 export type UpdateListener = (tableName: string) => void;
-type DataVersionPragma = [{data_version: number}];
-type SchemaVersionPragma = [{schema_version: number}];
+type DataVersionPragma = [{ data_version: number }];
+type SchemaVersionPragma = [{ schema_version: number }];
 
-const PRAGMA = 'pragma ';
-const DATA_VERSION = 'data_version';
-const SCHEMA_VERSION = 'schema_version';
+const PRAGMA = "pragma ";
+const DATA_VERSION = "data_version";
+const SCHEMA_VERSION = "schema_version";
 
 export const createSqlitePersister = <UpdateListeningHandle>(
   store: Store,
   configOrStoreTableName: DatabasePersisterConfig | string | undefined,
   cmd: Cmd,
   addUpdateListener: (listener: UpdateListener) => UpdateListeningHandle,
-  delUpdateListener: (listeningHandle: UpdateListeningHandle) => void,
+  delUpdateListener: (listeningHandle: UpdateListeningHandle) => void
 ): Persister => {
   let dataVersion: number | null;
   let schemaVersion: number | null;
@@ -36,7 +36,7 @@ export const createSqlitePersister = <UpdateListeningHandle>(
   ] = getConfigStructures(configOrStoreTableName);
 
   const addPersisterListener = (
-    listener: PersisterListener,
+    listener: PersisterListener
   ): [NodeJS.Timeout, UpdateListeningHandle] => [
     setInterval(async () => {
       try {
@@ -57,13 +57,13 @@ export const createSqlitePersister = <UpdateListeningHandle>(
       } catch {}
     }, (autoLoadIntervalSeconds as number) * 1000),
     addUpdateListener((tableName: string) =>
-      managedTableNamesSet.has(tableName) ? listener() : 0,
+      managedTableNamesSet.has(tableName) ? listener() : 0
     ),
   ];
 
   const delPersisterListener = ([interval, listeningHandle]: [
     NodeJS.Timeout,
-    UpdateListeningHandle,
+    UpdateListeningHandle
   ]): void => {
     clearInterval(interval);
     dataVersion = schemaVersion = null;
@@ -76,6 +76,6 @@ export const createSqlitePersister = <UpdateListeningHandle>(
     addPersisterListener,
     delPersisterListener,
     defaultedConfig as any,
-    collValues(managedTableNamesSet),
+    collValues(managedTableNamesSet)
   );
 };

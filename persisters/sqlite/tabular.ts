@@ -1,13 +1,13 @@
-import {Cmd, getCommandFunctions} from './commands';
-import {DEFAULT_ROW_ID_COLUMN_NAME, SINGLE_ROW_ID} from './common';
-import {Persister, PersisterListener} from '../../types/persisters';
-import {Store, Tables, Values} from '../../types/store';
-import {isUndefined, promiseAll} from '../../common/other';
-import {objIsEmpty, objNew} from '../../common/obj';
-import {DefaultedTabularConfig} from './config';
-import {arrayFilter} from '../../common/array';
-import {createCustomPersister} from '../../persisters';
-import {mapMap} from '../../common/map';
+import { Cmd, getCommandFunctions } from "./commands";
+import { DEFAULT_ROW_ID_COLUMN_NAME, SINGLE_ROW_ID } from "./common";
+import { Persister, PersisterListener } from "../../types/persisters";
+import { Store, Tables, Values } from "../../types/store";
+import { isUndefined, promiseAll } from "../../common/other";
+import { objIsEmpty, objNew } from "../../common/obj";
+import { DefaultedTabularConfig } from "./config";
+import { arrayFilter } from "../../common/array";
+import { createCustomPersister } from "../../app/persisters";
+import { mapMap } from "../../common/map";
 
 export const createTabularSqlitePersister = <ListeningHandle>(
   store: Store,
@@ -19,7 +19,7 @@ export const createTabularSqlitePersister = <ListeningHandle>(
     tablesSaveConfig,
     [valuesLoad, valuesSave, valuesTableName],
   ]: DefaultedTabularConfig,
-  managedTableNames: string[],
+  managedTableNames: string[]
 ): Persister => {
   const [refreshSchema, loadSingleRow, saveSingleRow, loadTable, saveTable] =
     getCommandFunctions(cmd, managedTableNames);
@@ -30,16 +30,16 @@ export const createTabularSqlitePersister = <ListeningHandle>(
         tablesSaveConfig,
         async (
           [tableName, rowIdColumnName, deleteEmptyColumns, deleteEmptyTable],
-          tableId,
+          tableId
         ) =>
           await saveTable(
             tableName,
             rowIdColumnName,
             deleteEmptyColumns,
             deleteEmptyTable,
-            tables[tableId],
-          ),
-      ),
+            tables[tableId]
+          )
+      )
     );
 
   const saveValues = async (values: Values) =>
@@ -48,7 +48,7 @@ export const createTabularSqlitePersister = <ListeningHandle>(
           valuesTableName,
           DEFAULT_ROW_ID_COLUMN_NAME,
           SINGLE_ROW_ID,
-          values,
+          values
         )
       : null;
 
@@ -61,11 +61,11 @@ export const createTabularSqlitePersister = <ListeningHandle>(
             async ([tableId, rowIdColumnName], tableName) => [
               tableId,
               await loadTable(tableName, rowIdColumnName),
-            ],
-          ),
+            ]
+          )
         ),
-        (pair) => !objIsEmpty(pair[1]),
-      ),
+        (pair) => !objIsEmpty(pair[1])
+      )
     );
 
   const loadValues = async (): Promise<Values | null> =>
@@ -83,7 +83,7 @@ export const createTabularSqlitePersister = <ListeningHandle>(
   };
 
   const setPersisted = async (
-    getContent: () => [Tables, Values],
+    getContent: () => [Tables, Values]
   ): Promise<void> => {
     const [tables, values] = getContent();
     await refreshSchema();
@@ -96,7 +96,7 @@ export const createTabularSqlitePersister = <ListeningHandle>(
     getPersisted,
     setPersisted,
     addPersisterListener,
-    delPersisterListener,
+    delPersisterListener
   );
 
   return persister;

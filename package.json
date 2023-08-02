@@ -15,6 +15,7 @@
     "@vlcn.io/react": "^2.4.0",
     "@vlcn.io/rx-tbl": "^0.13.0",
     "expo": "^49.0.4",
+    "expo-crypto": "~12.4.1",
     "expo-dev-client": "~2.4.6",
     "expo-splash-screen": "~0.20.4",
     "expo-sqlite": "../../../oss/expo/packages/expo-sqlite/",

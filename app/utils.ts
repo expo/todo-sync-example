@@ -1,3 +1,5 @@
+import * as crypto from "expo-crypto";
+
 const todoList = [
   "Buy groceries",
   "Pay bills",
@@ -222,4 +224,21 @@ export function bytesToHex(bytes: Uint8Array) {
     hex.push((current & 0xf).toString(16));
   }
   return hex.join("");
+}
+
+export function nanoid(t = 21) {
+  return crypto
+    .getRandomValues(new Uint8Array(t))
+    .reduce(
+      (t, e) =>
+        (t +=
+          (e &= 63) < 36
+            ? e.toString(36)
+            : e < 62
+            ? (e - 26).toString(36).toUpperCase()
+            : e > 62
+            ? "-"
+            : "_"),
+      ""
+    );
 }

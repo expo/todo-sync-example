@@ -4,7 +4,7 @@ import { Persister, PersisterListener } from "../../types/persisters";
 import { Store, Tables, Values } from "../../types/store";
 import { jsonParse, jsonString } from "../../common/json";
 import { DefaultedJsonConfig } from "./config";
-import { createCustomPersister } from "../../persisters";
+import { createCustomPersister } from "../../app/persisters";
 
 const STORE_COLUMN = "store";
 

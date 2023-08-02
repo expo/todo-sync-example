@@ -1,13 +1,13 @@
-import { DEBUG, ifNotUndefined, isUndefined } from "./common/other";
-import { GetTransactionChanges, Store, Tables, Values } from "./types/store.d";
+import { DEBUG, ifNotUndefined, isUndefined } from "../common/other";
+import { GetTransactionChanges, Store, Tables, Values } from "../types/store";
 import {
   Persister,
   PersisterListener,
   PersisterStats,
-} from "./types/persisters.d";
-import { arrayPush, arrayShift } from "./common/array";
-import { objFreeze, objIsEmpty } from "./common/obj";
-import { Id } from "./types/common.d";
+} from "../types/persisters";
+import { arrayPush, arrayShift } from "../common/array";
+import { objFreeze, objIsEmpty } from "../common/obj";
+import { Id } from "../types/common";
 
 type Action = () => Promise<any>;
 

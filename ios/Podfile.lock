@@ -69,6 +69,8 @@ PODS:
     - expo-dev-menu/SafeAreaView
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - ExpoCrypto (12.4.1):
+    - ExpoModulesCore
   - ExpoKeepAwake (12.3.0):
     - ExpoModulesCore
   - ExpoModulesCore (1.5.7):
@@ -558,6 +560,7 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
+  - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSQLite (from `../node_modules/expo-sqlite/ios`)
@@ -638,6 +641,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
+  ExpoCrypto:
+    :path: "../node_modules/expo-crypto/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
@@ -740,6 +745,7 @@ SPEC CHECKSUMS:
   expo-dev-launcher: de065738958421c704ee024f4fe1bf14b2d8a713
   expo-dev-menu: 9b3792cc2241011b63747cc77d06b0dcbcc57780
   expo-dev-menu-interface: bda969497e73dadc2663c479e0fa726ca79a306e
+  ExpoCrypto: a382ab9a2fa91f0b511ce1fe4d6baecee40a1615
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
   ExpoModulesCore: f8f3cac222bb0f574c77664d7e05817eaa97434b
   ExpoSQLite: 33f036d3d85e1f3b3a78dee39621cb44dad09eed
