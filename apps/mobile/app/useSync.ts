@@ -1,40 +1,65 @@
 import { useEffect, useRef, useState } from "react";
+import PartySocket from "partysocket";
 import { db } from "./db/init";
 
+function createPartySocket() {
+  return new PartySocket({
+    host: "localhost:1999", // for local development
+    // host: "my-party.username.partykit.dev", // for production
+    room: "my-room",
+  });
+}
+
+async function handleMessageAsync(e: MessageEvent<string>) {
+  const data = JSON.parse(e.data);
+  const rows = data[0].rows;
+
+  for (const row of rows) {
+    const { pk, ...rest } = row;
+    const sql = `INSERT INTO crsql_changes ("table", 'pk', 'cid', 'val', 'col_version', 'db_version', 'site_id') VALUES (?, ${pk}, ?, ?, ?, ?, ?)`;
+    try {
+      await db.execAsync(
+        [
+          {
+            sql,
+            args: Object.values(rest),
+          },
+        ],
+        false
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
 export function useSync() {
-  const ws = useRef(new WebSocket(`ws://localhost:3000`)).current;
+  const socket = useRef(createPartySocket()).current;
   const [syncEnabled, setSyncEnabled] = useState(true);
 
   useEffect(() => {
-    const handleMessage = async (e) => {
+    const handleMessage = (e: MessageEvent<string>) => {
       if (!syncEnabled) return;
-
-      const data = JSON.parse(e.data);
-      const rows = data[0].rows;
-
-      for (const row of rows) {
-        const { pk, ...rest } = row;
-        const sql = `INSERT INTO crsql_changes ("table", 'pk', 'cid', 'val', 'col_version', 'db_version', 'site_id') VALUES (?, ${pk}, ?, ?, ?, ?, ?)`;
-        await db.execAsync(
-          [
-            {
-              sql,
-              args: Object.values(rest),
-            },
-          ],
-          false
-        );
-      }
+      handleMessageAsync(e);
     };
 
-    ws.onmessage = handleMessage;
-  }, [syncEnabled]);
+    socket.addEventListener("message", handleMessage);
+
+    if (syncEnabled) {
+      // Send an init message to get the latest changes
+      socket.send("init");
+    }
+
+    return () => {
+      socket.removeEventListener("message", handleMessage);
+    };
+  }, [socket, syncEnabled]);
 
   useEffect(() => {
     const maybeSendChanges = async () => {
       if (syncEnabled) {
         const changes = await requestChanges();
-        ws.send(JSON.stringify(changes));
+        socket.send(JSON.stringify(changes));
       }
     };
 

@@ -1,3 +1,6 @@
+import './crypto-polyfill'; // Required for parksocket
+import 'expo-dev-client';
+
 import { registerRootComponent } from 'expo';
 
 import App from './App';
