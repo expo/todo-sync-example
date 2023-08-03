@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "partykit dev index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
+    "partykit": "^0.0.0-278833e",
     "ws": "^8.13.0"
   }
 }

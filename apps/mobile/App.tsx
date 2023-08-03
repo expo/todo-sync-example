@@ -1,4 +1,3 @@
-import "expo-dev-client";
 import { initDatabase, db } from "./app/db/init";
 import { StatusBar } from "expo-status-bar";
 import {
