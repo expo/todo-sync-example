@@ -2236,61 +2236,6 @@
     "@urql/core" ">=2.3.1"
     wonka "^4.0.14"
 
-"@vlcn.io/crsqlite-wasm@0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/crsqlite-wasm/-/crsqlite-wasm-0.14.0.tgz#17061351ed9cd0473d5a70c57142f8e82b6e88e1"
-  integrity sha512-h7qEpECLZ27hrq1IwuoOJ9s4Dq+5pFjYa8Dpsn6n2qkUfCBe6Tkwc3NQkIKXTpnUrw4EMtr6sSMNSUADR9gBVQ==
-  dependencies:
-    "@vlcn.io/wa-sqlite" "0.20.0"
-    "@vlcn.io/xplat-api" "0.13.0"
-    async-mutex "^0.4.0"
-
-"@vlcn.io/direct-connect-browser@0.4.0", "@vlcn.io/direct-connect-browser@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/direct-connect-browser/-/direct-connect-browser-0.4.0.tgz#a50b42f8b23de635f46c707314623e6070c2e4b5"
-  integrity sha512-u9A847QPoJm1gOh6UpCRCxg2xf3mdAOYONXYOonwaxx4GGM9nLFR+B3WIySY0XmBr8lNEp9WwuVv+t56xaA1Vg==
-  dependencies:
-    "@vlcn.io/crsqlite-wasm" "0.14.0"
-    "@vlcn.io/direct-connect-common" "0.5.0"
-    "@vlcn.io/rx-tbl" "0.13.0"
-    "@vlcn.io/xplat-api" "0.13.0"
-
-"@vlcn.io/direct-connect-common@0.5.0", "@vlcn.io/direct-connect-common@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/direct-connect-common/-/direct-connect-common-0.5.0.tgz#d63beade59c8c45498f6e7e11f49d26ca83d333a"
-  integrity sha512-ulnTCLX8bMdfU8f5uEm2NU5kOwVlRCPqVvYa4Hn2lJ13GXkBJlqRm8ndRCQD6b1dYKEbhm/Pdkr+GaH9ODsAtg==
-  dependencies:
-    lib0 "^0.2.73"
-
-"@vlcn.io/react@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/react/-/react-2.4.0.tgz#7d4a8ef34a8bf9cfea424cfeb71632502fd8f3c8"
-  integrity sha512-vPBDACC0HEshJlL2YeLUfgbPapEO5gch4UcMjYrUcKExySFM07IO3x7Fz5PLLJWYY2i6/edyshihqZbl3QbOZw==
-  dependencies:
-    "@vlcn.io/crsqlite-wasm" "0.14.0"
-    "@vlcn.io/direct-connect-browser" "0.4.0"
-    "@vlcn.io/rx-tbl" "0.13.0"
-    "@vlcn.io/xplat-api" "0.13.0"
-
-"@vlcn.io/rx-tbl@0.13.0", "@vlcn.io/rx-tbl@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/rx-tbl/-/rx-tbl-0.13.0.tgz#363c30549175f3505db4d35e41fe60b00afcf1ae"
-  integrity sha512-vInhGhk5+76uUG05h/5p1Lzmxx/RNpXNyFRatMpTX/VcNfAK8z+1jqMWvQBq6eyfPya8p8IEmCkmpmtdgtdAgg==
-  dependencies:
-    "@vlcn.io/xplat-api" "0.13.0"
-
-"@vlcn.io/wa-sqlite@0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/wa-sqlite/-/wa-sqlite-0.20.0.tgz#2d3998be937f3692d4592b16c12178eb4ebfb76b"
-  integrity sha512-CkEtg6L6g1QiTupOJUYJkJOWFBTrrfkQxsvbOFkcWqLBi4389TOGnGYK9p5Fy0w8pZh8lTD5xjIL62h8mObkOQ==
-
-"@vlcn.io/xplat-api@0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@vlcn.io/xplat-api/-/xplat-api-0.13.0.tgz#9d31155a0501218c359a3e5427ddb5aee540c5a0"
-  integrity sha512-dgAcX9iEwx/3+uVzlkLRIZvsJf0XXiffepWudXPpLlkWp8mTZ2eUwoHOWgISWBUTOUQ3jtmZRHqVZgySegRE/w==
-  dependencies:
-    comlink "^4.4.1"
-
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz#a1337ca426aa61cef9fe15b5b28e340a72f6fa99"
@@ -2515,13 +2460,6 @@ async-limiter@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
-
-async-mutex@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/async-mutex/-/async-mutex-0.4.0.tgz#ae8048cd4d04ace94347507504b3cf15e631c25f"
-  integrity sha512-eJFZ1YhRR8UN8eBLoNzcDPcy/jqjsg6I1AP+KvWQX80BqOSW1oJPJXDylPUEeMr2ZQvHgnQ//Lp6f3RQ1zI7HA==
-  dependencies:
-    tslib "^2.4.0"
 
 async@^3.2.2:
   version "3.2.4"
@@ -3158,11 +3096,6 @@ combined-stream@^1.0.8:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
-
-comlink@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/comlink/-/comlink-4.4.1.tgz#e568b8e86410b809e8600eb2cf40c189371ef981"
-  integrity sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q==
 
 command-exists@^1.2.4, command-exists@^1.2.8:
   version "1.2.9"
@@ -3808,7 +3741,7 @@ expo-crypto@~12.4.1:
   dependencies:
     base64-js "^1.3.0"
 
-expo-dev-client@~2.4.6:
+expo-dev-client@^2.4.6:
   version "2.4.6"
   resolved "https://registry.yarnpkg.com/expo-dev-client/-/expo-dev-client-2.4.6.tgz#a9d18127f5ef812464ada60600b716d533bb8d57"
   integrity sha512-oRectvtOh86HDf0fk7pjw0CahLRR2W75QkRDuXerLsUfzpbSg9KKm0kGuK3YZ+E6QpAo3FkXTkdAztDLYXCtTQ==
@@ -4893,11 +4826,6 @@ isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
 
-isomorphic.js@^0.2.4:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/isomorphic.js/-/isomorphic.js-0.2.5.tgz#13eecf36f2dba53e85d355e11bf9d4208c6f7f88"
-  integrity sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==
-
 jest-environment-node@^29.2.1:
   version "29.6.2"
   resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-29.6.2.tgz#a9ea2cabff39b08eca14ccb32c8ceb924c8bb1ad"
@@ -5158,13 +5086,6 @@ leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
   integrity sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==
-
-lib0@^0.2.73:
-  version "0.2.78"
-  resolved "https://registry.yarnpkg.com/lib0/-/lib0-0.2.78.tgz#9aa34733075caafb3edf228da6e609d15ada0088"
-  integrity sha512-SV2nU43/6eaYnGH3l0lg2wg1ziB/TH3sAd2E8quXPGwrqo+aX98SNT2ZKucpUr5B8A52jD7ZMjAl+r87Fa/bLQ==
-  dependencies:
-    isomorphic.js "^0.2.4"
 
 lightningcss-darwin-arm64@1.19.0:
   version "1.19.0"
