@@ -2,5 +2,7 @@
   "name": "expo-sqlite-cr-sqlite-monorepo-demo",
   "version": "1.0.0",
   "private": true,
-  "workspaces": ["apps/*"]
+  "workspaces": [
+    "apps/*"
+  ]
 }
