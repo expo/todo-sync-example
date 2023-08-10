@@ -2785,17 +2785,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-client@npm:^0.1.0-next.5":
-  version: 0.1.0-next.6
-  resolution: "@vlcn.io/ws-client@npm:0.1.0-next.6"
+"@vlcn.io/ws-client@npm:0.1.0-next.5":
+  version: 0.1.0-next.5
+  resolution: "@vlcn.io/ws-client@npm:0.1.0-next.5"
   dependencies:
     "@types/throttle-debounce": ^5.0.0
     "@vlcn.io/ws-common": 0.1.0-next.0
-  checksum: 04a5c89cefeba4063b1816b2ee570570d17b443eb5b20c4d6bfac47c134bcd4cc103d01c363204fd8ad8b89b02391f6eeb7cafc466d2fd6a315890e725674bf6
+  checksum: 031dea3337222d3eef6887d206448acb0944f7a3b81c7f17f9334a668ed4e7c3a1d5d759d8352e2607a66de062fe60ae91983775b374a648774303cea1296d06
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-common@npm:0.1.0-next.0, @vlcn.io/ws-common@npm:^0.1.0-next.0":
+"@vlcn.io/ws-common@npm:0.1.0-next.0":
   version: 0.1.0-next.0
   resolution: "@vlcn.io/ws-common@npm:0.1.0-next.0"
   dependencies:
@@ -6874,8 +6874,8 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/plugin-transform-private-methods": ^7.22.5
     "@types/react": ~18.2.14
-    "@vlcn.io/ws-client": ^0.1.0-next.5
-    "@vlcn.io/ws-common": ^0.1.0-next.0
+    "@vlcn.io/ws-client": 0.1.0-next.5
+    "@vlcn.io/ws-common": 0.1.0-next.0
     base-64: ^1.0.0
     expo: ^49.0.4
     expo-crypto: ~12.4.1
@@ -9076,11 +9076,11 @@ __metadata:
 
 "typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
   version: 5.1.6
-  resolution: "typescript@patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=85af82"
+  resolution: "typescript@patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 21e88b0a0c0226f9cb9fd25b9626fb05b4c0f3fddac521844a13e1f30beb8f14e90bd409a9ac43c812c5946d714d6e0dee12d5d02dfc1c562c5aacfa1f49b606
+  checksum: f53bfe97f7c8b2b6d23cf572750d4e7d1e0c5fff1c36d859d0ec84556a827b8785077bc27676bf7e71fae538e517c3ecc0f37e7f593be913d884805d931bc8be
   languageName: node
   linkType: hard
 
