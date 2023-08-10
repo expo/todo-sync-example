@@ -34,8 +34,8 @@ class SyncedExpoDB implements DB {
       const resultSet = await this.#db.execAsync([
         {
           // Have to do a hex conversion since expo-sqlite doesn't support blobs
-          sql: `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT ?`,
-          args: [since[0], excludeSites[0]],
+          sql: `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
+          args: [since[0], bytesToHex(excludeSites[0])],
         }
       ], true);
       const ret = resultSet[0];
@@ -81,9 +81,11 @@ class SyncedExpoDB implements DB {
   }
 
   async getLastSeens(): Promise<[Uint8Array, [bigint, number]][]> {
+      // TODO: more hexing and unhexing due to lack of blob support
+      // in the expo bindings
       const resultSet = await this.#db.execAsync([
         {
-          sql: `SELECT "site_id", "version", "seq" FROM crsql_tracked_peers`,
+          sql: `SELECT hex("site_id") as "site_id", "version", "seq" FROM crsql_tracked_peers`,
           args: [],
         }
       ], true);
@@ -93,7 +95,7 @@ class SyncedExpoDB implements DB {
       }
       return ret.rows.map((row) => {
         const { site_id, version, seq } = row;
-        return [site_id, [BigInt(version), seq]];
+        return [hexToBytes(site_id), [BigInt(version), seq]];
       });
   }
 
@@ -121,7 +123,7 @@ export function createSingletonDbProvider(
     }
     const resultSet = await db.execAsync([
       {
-        sql: `SELECT crsql_site_id() as site_id`,
+        sql: `SELECT hex(crsql_site_id()) as site_id`,
         args: [],
       }],
     true);
@@ -129,7 +131,7 @@ export function createSingletonDbProvider(
     if ('error' in ret) {
       throw ret.error;
     }
-    const siteId = ret.rows[0]['site_id'];
+    const siteId = hexToBytes(ret.rows[0]['site_id']);
     return new SyncedExpoDB(db, siteId, schemaName, schemaVersion);
   }
 }

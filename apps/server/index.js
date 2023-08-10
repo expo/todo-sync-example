@@ -1,18 +1,18 @@
-let previousMessage = null;
+#!/usr/bin/env node
 
-export default {
-  onConnect(websocket, room) {
-    websocket.addEventListener("message", (event) => {
-      const message = event.data;
+import * as http from "http";
+import { attachWebsocketServer } from "@vlcn.io/ws-server";
+import express from "express";
 
-      if (event.data === 'init') {
-        if (previousMessage) {
-          websocket.send(previousMessage);
-        }
-      } else {
-        room.broadcast(message.toString());
-        previousMessage = message.toString();
-      }
-    });
-  }
-}
+const port = process.env.PORT || 8080;
+
+const app = express();
+const server = http.createServer(app);
+
+attachWebsocketServer(server, {
+  dbFolder: "./dbs",
+  schemaFolder: "./schemas",
+  pathPattern: /\/sync/,
+});
+
+server.listen(port, () => console.log("info", `listening on port ${port}!`));
