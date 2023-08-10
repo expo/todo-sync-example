@@ -34,7 +34,6 @@ export default function App() {
 
 function TodoList() {
   const store = useStore();
-  // const { syncEnabled, setSyncEnabled } = useSync();
 
   // TODO: allow enabling/disabling sync
   // TODO: return cleanup

@@ -2784,17 +2784,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-client@npm:^0.1.0-next.5":
-  version: 0.1.0-next.6
-  resolution: "@vlcn.io/ws-client@npm:0.1.0-next.6"
+"@vlcn.io/ws-client@npm:0.1.0-next.5":
+  version: 0.1.0-next.5
+  resolution: "@vlcn.io/ws-client@npm:0.1.0-next.5"
   dependencies:
     "@types/throttle-debounce": ^5.0.0
     "@vlcn.io/ws-common": 0.1.0-next.0
-  checksum: 04a5c89cefeba4063b1816b2ee570570d17b443eb5b20c4d6bfac47c134bcd4cc103d01c363204fd8ad8b89b02391f6eeb7cafc466d2fd6a315890e725674bf6
+  checksum: 031dea3337222d3eef6887d206448acb0944f7a3b81c7f17f9334a668ed4e7c3a1d5d759d8352e2607a66de062fe60ae91983775b374a648774303cea1296d06
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-common@npm:0.1.0-next.0, @vlcn.io/ws-common@npm:^0.1.0-next.0":
+"@vlcn.io/ws-common@npm:0.1.0-next.0":
   version: 0.1.0-next.0
   resolution: "@vlcn.io/ws-common@npm:0.1.0-next.0"
   dependencies:
@@ -2803,7 +2803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-server@npm:^0.1.0-next.2":
+"@vlcn.io/ws-server@npm:0.1.0-next.2":
   version: 0.1.0-next.2
   resolution: "@vlcn.io/ws-server@npm:0.1.0-next.2"
   dependencies:
@@ -4552,55 +4552,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-dev-client@npm:~2.4.6":
-  version: 2.4.7
-  resolution: "expo-dev-client@npm:2.4.7"
-  dependencies:
-    expo-dev-launcher: 2.4.9
-    expo-dev-menu: 3.1.9
-    expo-dev-menu-interface: 1.3.0
-    expo-manifests: ~0.7.0
-    expo-updates-interface: ~0.10.0
-  peerDependencies:
-    expo: "*"
-  checksum: 4cf743b90be3b31785c019ad612a201ba886ec99b2d8cc6a15b167c1c1d13572facc0b238d754a27bba4a7260e8231b72a83eb8b31029c0064895e8554d52b8f
-  languageName: node
-  linkType: hard
-
-"expo-dev-launcher@npm:2.4.9":
-  version: 2.4.9
-  resolution: "expo-dev-launcher@npm:2.4.9"
-  dependencies:
-    expo-dev-menu: 3.1.9
-    resolve-from: ^5.0.0
-    semver: ^7.5.3
-  peerDependencies:
-    expo: "*"
-  checksum: 9a6b0f665a03b5518b2d6a4fe0ec92009f9682c78201cd7043a6bb75a4721a1545323897e96406f80cdc5f01d3e94bf9c1305b31c9731bea71d7e213526324cc
-  languageName: node
-  linkType: hard
-
-"expo-dev-menu-interface@npm:1.3.0":
-  version: 1.3.0
-  resolution: "expo-dev-menu-interface@npm:1.3.0"
-  peerDependencies:
-    expo: "*"
-  checksum: 74fbe9849bda3534981518154cb3ac62f8e96f4f68eab07f04340f8d6e28dd479819d5ae7d5576d5656d2c5780128b1e0e59c2701ad93af83704afa57b240ee8
-  languageName: node
-  linkType: hard
-
-"expo-dev-menu@npm:3.1.9":
-  version: 3.1.9
-  resolution: "expo-dev-menu@npm:3.1.9"
-  dependencies:
-    expo-dev-menu-interface: 1.3.0
-    semver: ^7.5.3
-  peerDependencies:
-    expo: "*"
-  checksum: f93a8291ab488afb91d908af021f9c141be09b0fa929fd4986252dddfec38d4ba7293e8cc3d2882187c63d64fbf0abb22ada667922053593bfd6a48a3d0d2fbf
-  languageName: node
-  linkType: hard
-
 "expo-file-system@npm:~15.4.0, expo-file-system@npm:~15.4.3":
   version: 15.4.3
   resolution: "expo-file-system@npm:15.4.3"
@@ -4623,28 +4574,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-json-utils@npm:~0.7.0":
-  version: 0.7.1
-  resolution: "expo-json-utils@npm:0.7.1"
-  checksum: 0586f3e159455c9d20950bddba7be93f686bbf84056245c6861bad7c9889e9edd450a078c05a19d49a2e047e00670fcd416bde62ba9cb8c5f14a270199199295
-  languageName: node
-  linkType: hard
-
 "expo-keep-awake@npm:~12.3.0":
   version: 12.3.0
   resolution: "expo-keep-awake@npm:12.3.0"
   peerDependencies:
     expo: "*"
   checksum: 21a17de233bf0401cca64a22275f089557f99248896f29d262b22545199c7d4e816bc9be6b7d547046706db700d9ac3e648a2ca764a9ced4a0739583106fd7ea
-  languageName: node
-  linkType: hard
-
-"expo-manifests@npm:~0.7.0":
-  version: 0.7.1
-  resolution: "expo-manifests@npm:0.7.1"
-  dependencies:
-    expo-json-utils: ~0.7.0
-  checksum: 2d9a5ead5a2aab76a995a303e4ea9d2e787723e2c48055ea2f70299c8e18b10b404348e1be71b0ad45f11cfa46689f4c3f18f6ea58ed6524f1b1525e9c043b10
   languageName: node
   linkType: hard
 
@@ -4706,15 +4641,6 @@ __metadata:
   version: 1.6.0
   resolution: "expo-status-bar@npm:1.6.0"
   checksum: e9fe7eeac4dfb3a534d79b6fa0df2a3d2e4c69edeb3573e408ca8d3b7d192627b3f9638c8f656bea9af0a6660f27c99c5da504a508294893dbe359ad5f1d6ab3
-  languageName: node
-  linkType: hard
-
-"expo-updates-interface@npm:~0.10.0":
-  version: 0.10.1
-  resolution: "expo-updates-interface@npm:0.10.1"
-  peerDependencies:
-    expo: "*"
-  checksum: 7fe5ac9d651f59b37e51d52fff16b5046636e5c3a3ea72110103d1745615276d8c97839e89f7c66fafc6de7749d3772195d0830815e1056f7a989badada6ded2
   languageName: node
   linkType: hard
 
@@ -7117,16 +7043,14 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/plugin-transform-private-methods": ^7.22.5
     "@types/react": ~18.2.14
-    "@vlcn.io/ws-client": ^0.1.0-next.5
-    "@vlcn.io/ws-common": ^0.1.0-next.0
+    "@vlcn.io/ws-client": 0.1.0-next.5
+    "@vlcn.io/ws-common": 0.1.0-next.0
     base-64: ^1.0.0
     expo: ^49.0.4
     expo-crypto: ~12.4.1
-    expo-dev-client: ~2.4.6
     expo-splash-screen: ~0.20.4
     expo-sqlite: 11.5.0
     expo-status-bar: ~1.6.0
-    partysocket: 0.0.0-42c7e58
     react: 18.2.0
     react-native: 0.72.3
     react-native-reanimated: ~3.3.0
@@ -7651,15 +7575,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"partysocket@npm:0.0.0-42c7e58":
-  version: 0.0.0-42c7e58
-  resolution: "partysocket@npm:0.0.0-42c7e58"
-  dependencies:
-    react: ^18.2.0
-  checksum: eb6dcf11a7c37b79b43310dfa049fd9da4daf4cabab2e203fd549499b498beacc09d924479d464be6e7105da45db9a22812d4c5e561248e09c63af4d2fdba233
-  languageName: node
-  linkType: hard
-
 "password-prompt@npm:^1.0.4":
   version: 1.1.3
   resolution: "password-prompt@npm:1.1.3"
@@ -8172,7 +8087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.2.0, react@npm:^18.2.0":
+"react@npm:18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
@@ -8641,7 +8556,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "server@workspace:apps/server"
   dependencies:
-    "@vlcn.io/ws-server": ^0.1.0-next.2
+    "@vlcn.io/ws-server": 0.1.0-next.2
     express: ^4.18.2
   languageName: unknown
   linkType: soft

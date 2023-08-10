@@ -20,6 +20,7 @@ class SyncedExpoDB implements DB {
   }
 
   onChange(cb: () => void): () => void {
+    console.log('registering db listener...');
     const subscription = this.#db.onDatabaseChange(cb);
     return () => {
       subscription.remove();
@@ -70,7 +71,11 @@ class SyncedExpoDB implements DB {
           // TODO: expo blob bindings may still not work.. in which case we need to finagle with the bindings and `pk` to get it to work
           // doing these inserts in parallel wouldn't make sense hence awaiting in a loop.
           // also col_version, db_version may need to be coerced to numbers from bigints...
-          await transaction.executeSqlAsync(sql, [table, bytesToHex(pk), cid, val, Number(col_version), Number(db_version), bytesToHex(siteId)]);
+          // oof... the lack of bigin 😬
+          const bind = [table, bytesToHex(pk), cid, typeof val === 'bigint' ? Number(val) : val, Number(col_version), Number(db_version), bytesToHex(siteId)];
+          console.log(bind);
+          await transaction.executeSqlAsync(sql, bind);
+          console.log(bind);
         }
         await transaction.executeSqlAsync(
           `INSERT INTO "crsql_tracked_peers" ("site_id", "event", "version", "seq", "tag") VALUES (unhex(?), ?, ?, ?, 0) ON CONFLICT DO UPDATE SET
