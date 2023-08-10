@@ -5,12 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "partykit dev index.js",
+    "start": "node ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "partykit": "^0.0.0-278833e"
+    "@vlcn.io/ws-server": "^0.1.0-next.2",
+    "express": "^4.18.2"
   }
 }
