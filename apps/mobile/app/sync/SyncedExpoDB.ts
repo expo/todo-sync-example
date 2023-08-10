@@ -1,5 +1,5 @@
 import { DB } from "@vlcn.io/ws-client";
-import { Change } from "@vlcn.io/ws-common";
+import { Change, bytesToHex, hexToBytes } from "@vlcn.io/ws-common";
 import { SQLiteDatabase } from "expo-sqlite";
 
 class SyncedExpoDB implements DB {
@@ -33,7 +33,8 @@ class SyncedExpoDB implements DB {
   async pullChangeset(since: readonly [bigint, number], excludeSites: readonly Uint8Array[], localOnly: boolean): Promise<readonly Change[]> {
       const resultSet = await this.#db.execAsync([
         {
-          sql: `SELECT "table", "pk", "cid", "val", "col_version", "db_version", "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT ?`,
+          // Have to do a hex conversion since expo-sqlite doesn't support blobs
+          sql: `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT ?`,
           args: [since[0], excludeSites[0]],
         }
       ], true);
@@ -45,7 +46,8 @@ class SyncedExpoDB implements DB {
         const { table, pk, cid, val, col_version, db_version, cl } = row;
         return [
           table,
-          pk,
+          // and then back to a bytes again :/
+          hexToBytes(pk),
           cid,
           val,
           BigInt(col_version),
@@ -58,22 +60,22 @@ class SyncedExpoDB implements DB {
 
   async applyChangesetAndSetLastSeen(changes: readonly Change[], siteId: Uint8Array, end: readonly [bigint, number]): Promise<void> {
       await this.#db.transactionAsync(async (transaction) => {
-        const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id", "cl") VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id", "cl") VALUES (?, unhex(?), ?, ?, ?, ?, unhex(?), ?)`;
         for (const change of changes) {
           const [table, pk, cid, val, col_version, db_version, _, cl] = change;
           // TODO: expo blob bindings may still not work.. in which case we need to finagle with the bindings and `pk` to get it to work
           // doing these inserts in parallel wouldn't make sense hence awaiting in a loop.
           // also col_version, db_version may need to be coerced to numbers from bigints...
-          await transaction.executeSqlAsync(sql, [table, pk, cid, val, col_version, db_version, siteId, cl]);
+          await transaction.executeSqlAsync(sql, [table, bytesToHex(pk), cid, val, Number(col_version), Number(db_version), bytesToHex(siteId), Number(cl)]);
         }
         await transaction.executeSqlAsync(
-          `INSERT INTO "crsql_tracked_peers" ("site_id", "event", "version", "seq", "tag") VALUES (?, ?, ?, ?, 0) ON CONFLICT DO UPDATE SET
+          `INSERT INTO "crsql_tracked_peers" ("site_id", "event", "version", "seq", "tag") VALUES (unhex(?), ?, ?, ?, 0) ON CONFLICT DO UPDATE SET
           "version" = MAX("version", excluded."version"),
           "seq" = CASE "version" > excluded."version" WHEN 1 THEN "seq" ELSE excluded."seq" END`,
           // TODO: expo doesn't support bigints.
           // This is okish since we'll never actually hit 2^53
           // TODO: hexify siteId? and unhex it in the db?
-          [siteId, 0, Number(end[0]), end[1]]
+          [bytesToHex(siteId), 0, Number(end[0]), end[1]]
         );
       });
   }

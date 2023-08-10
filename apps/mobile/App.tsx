@@ -1,4 +1,4 @@
-import { initDatabase, db } from "./app/db/init";
+import { initDatabase, db, dbProvider, dbName } from "./app/db/init";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { TodoRow } from "./app/todo";
-import { useSync } from "./app/useSync";
 import {
   Provider,
   SortedTableView,
@@ -19,7 +18,8 @@ import {
 } from "tinybase/lib/ui-react";
 import { createExpoSqlitePersister, store } from "./app/store";
 import { generateRandomTodo, nanoid } from "./app/utils";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createSyncedDB, defaultConfig } from "@vlcn.io/ws-client";
 
 const uri =
   "https://images.unsplash.com/photo-1631891318333-dc891d26f52a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGxhbmRtYXJrcyUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60";
@@ -34,10 +34,27 @@ export default function App() {
 
 function TodoList() {
   const store = useStore();
-  const { syncEnabled, setSyncEnabled } = useSync();
+  // const { syncEnabled, setSyncEnabled } = useSync();
 
+  // TODO: allow enabling/disabling sync
+  // TODO: return cleanup
+  const [syncEnabled, setSyncEnabled] = useState(true);
   useEffect(() => {
     initDatabase();
+    const syncedDbPromise = createSyncedDB({
+      dbProvider: dbProvider,
+      transportProvider: defaultConfig.transportProvider,
+    }, dbName, {
+      room: "my-room",
+      url: "ws://localhost:8080/sync",
+    }).then(synced => {
+      synced.start();
+      return synced;
+    });
+
+    return () => {
+      syncedDbPromise.then((synced) => synced.stop());
+    }
   }, []);
 
   useCreatePersister(
