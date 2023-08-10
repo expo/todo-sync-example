@@ -2785,13 +2785,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-client@npm:^0.1.0-next.4":
-  version: 0.1.0-next.4
-  resolution: "@vlcn.io/ws-client@npm:0.1.0-next.4"
+"@vlcn.io/ws-client@npm:^0.1.0-next.5":
+  version: 0.1.0-next.6
+  resolution: "@vlcn.io/ws-client@npm:0.1.0-next.6"
   dependencies:
     "@types/throttle-debounce": ^5.0.0
     "@vlcn.io/ws-common": 0.1.0-next.0
-  checksum: adf9c26ed6028e055825a9bd256fe257a8fdc1913bd3ecda6cd0928aa00616d83ca1231df1aceba5be6f97a50bcfdf2d569c456761a924430de78edf5ccd5c50
+  checksum: 04a5c89cefeba4063b1816b2ee570570d17b443eb5b20c4d6bfac47c134bcd4cc103d01c363204fd8ad8b89b02391f6eeb7cafc466d2fd6a315890e725674bf6
   languageName: node
   linkType: hard
 
@@ -6874,7 +6874,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/plugin-transform-private-methods": ^7.22.5
     "@types/react": ~18.2.14
-    "@vlcn.io/ws-client": ^0.1.0-next.4
+    "@vlcn.io/ws-client": ^0.1.0-next.5
     "@vlcn.io/ws-common": ^0.1.0-next.0
     base-64: ^1.0.0
     expo: ^49.0.4
