@@ -42,6 +42,7 @@ class SyncedExpoDB implements DB {
       if ('error' in ret) {
         throw ret.error;
       }
+      console.log(`Pulled ${ret.rows.length} changes since ${since[0]}`);
       return ret.rows.map((row) => {
         const { table, pk, cid, val, col_version, db_version, cl } = row;
         return [
