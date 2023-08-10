@@ -1,6 +1,14 @@
 import * as SQLite from "expo-sqlite";
 import { createSingletonDbProvider } from "../sync/SyncedExpoDB";
 import { cryb64 } from "@vlcn.io/ws-common";
+import {decode, encode} from 'base-64'
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
 
 export const dbName = "test.db";
 export const db = SQLite.openDatabase(dbName);

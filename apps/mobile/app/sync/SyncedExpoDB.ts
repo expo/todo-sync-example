@@ -31,11 +31,13 @@ class SyncedExpoDB implements DB {
   }
 
   async pullChangeset(since: readonly [bigint, number], excludeSites: readonly Uint8Array[], localOnly: boolean): Promise<readonly Change[]> {
+    console.log('pulling changes');
       const resultSet = await this.#db.execAsync([
         {
           // Have to do a hex conversion since expo-sqlite doesn't support blobs
-          sql: `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
-          args: [since[0], bytesToHex(excludeSites[0])],
+          // 0 as "cl" is a placeholder given cl does not exist in 0.14.0
+          sql: `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", 0 as "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
+          args: [Number(since[0]), bytesToHex(excludeSites[0])],
         }
       ], true);
       const ret = resultSet[0];
@@ -60,14 +62,15 @@ class SyncedExpoDB implements DB {
   }
 
   async applyChangesetAndSetLastSeen(changes: readonly Change[], siteId: Uint8Array, end: readonly [bigint, number]): Promise<void> {
+    console.log('applying changes');
       await this.#db.transactionAsync(async (transaction) => {
-        const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id", "cl") VALUES (?, unhex(?), ?, ?, ?, ?, unhex(?), ?)`;
+        const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id") VALUES (?, unhex(?), ?, ?, ?, ?, unhex(?))`;
         for (const change of changes) {
           const [table, pk, cid, val, col_version, db_version, _, cl] = change;
           // TODO: expo blob bindings may still not work.. in which case we need to finagle with the bindings and `pk` to get it to work
           // doing these inserts in parallel wouldn't make sense hence awaiting in a loop.
           // also col_version, db_version may need to be coerced to numbers from bigints...
-          await transaction.executeSqlAsync(sql, [table, bytesToHex(pk), cid, val, Number(col_version), Number(db_version), bytesToHex(siteId), Number(cl)]);
+          await transaction.executeSqlAsync(sql, [table, bytesToHex(pk), cid, val, Number(col_version), Number(db_version), bytesToHex(siteId)]);
         }
         await transaction.executeSqlAsync(
           `INSERT INTO "crsql_tracked_peers" ("site_id", "event", "version", "seq", "tag") VALUES (unhex(?), ?, ?, ?, 0) ON CONFLICT DO UPDATE SET
@@ -82,6 +85,7 @@ class SyncedExpoDB implements DB {
   }
 
   async getLastSeens(): Promise<[Uint8Array, [bigint, number]][]> {
+    console.log('getting last seens');
       // TODO: more hexing and unhexing due to lack of blob support
       // in the expo bindings
       const resultSet = await this.#db.execAsync([
@@ -124,7 +128,7 @@ export function createSingletonDbProvider(
     }
     const resultSet = await db.execAsync([
       {
-        sql: `SELECT hex(crsql_site_id()) as site_id`,
+        sql: `SELECT hex(crsql_siteid()) as site_id`,
         args: [],
       }],
     true);
