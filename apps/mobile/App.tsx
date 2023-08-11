@@ -16,10 +16,11 @@ import {
   useDelTableCallback,
   useStore,
 } from "tinybase/lib/ui-react";
-import { createExpoSqlitePersister, store } from "./app/store";
+import { createExpoSqlitePersister } from "tinybase/lib/persisters/persister-expo-sqlite";
 import { generateRandomTodo, nanoid } from "./app/utils";
 import { useCallback, useEffect, useState } from "react";
 import { createSyncedDB, defaultConfig } from "@vlcn.io/ws-client";
+import { store } from "./app/store";
 
 const uri =
   "https://images.unsplash.com/photo-1631891318333-dc891d26f52a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGxhbmRtYXJrcyUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60";
