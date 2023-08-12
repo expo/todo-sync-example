@@ -66,7 +66,9 @@ function TodoList() {
           load: { todo: { tableId: "todo", rowIdColumnName: "id" } },
           save: { todo: { tableName: "todo", rowIdColumnName: "id" } },
         },
-      }),
+      },
+      console.info,
+    ),
     [db],
     async (persister) => {
       await persister.startAutoLoad();
