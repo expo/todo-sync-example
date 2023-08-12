@@ -20,7 +20,7 @@
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-reanimated": "~3.3.0",
-    "tinybase": "^4.0.3",
+    "tinybase": "^4.0.4",
     "typescript": "^5.1.3"
   },
   "devDependencies": {
