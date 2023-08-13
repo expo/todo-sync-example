@@ -5,5 +5,15 @@
   "workspaces": [
     "apps/*"
   ],
-  "packageManager": "yarn@3.6.1"
+  "scripts": {
+    "start": "turbo start",
+    "clean": "turbo clean:modules && turbo clean:apps && pnpm install",
+    "clean:modules": "rm -rf node_modules && rm -rf apps/*/node_modules && rm -rf packages/*/node_modules",
+    "clean:apps": "rm -rf apps/*/ios && rm -rf apps/*/android && rm -rf apps/*/.expo"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.7",
+    "typescript": "^4.9.5"
+  },
+  "packageManager": "pnpm@7.33.6"
 }
