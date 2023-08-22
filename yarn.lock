@@ -7063,7 +7063,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.72.3
     react-native-reanimated: ~3.3.0
-    tinybase: ^4.0.4
+    tinybase: ^4.1.0
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -9252,15 +9252,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinybase@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "tinybase@npm:4.0.4"
+"tinybase@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "tinybase@npm:4.1.0"
   peerDependencies:
     "@sqlite.org/sqlite-wasm": ^3.42.0-build4
     "@vlcn.io/crsqlite-wasm": ^0.14.0
     automerge-repo: ^0.1.0
     prettier: ^2.8.8
     react: ^18.2.0
+    react-dom: ^18.2.0
     sqlite3: ^5.1.6
     yjs: ^13.6.7
   peerDependenciesMeta:
@@ -9274,13 +9275,15 @@ __metadata:
       optional: true
     react:
       optional: true
+    react-dom:
+      optional: true
     sqlite3:
       optional: true
     yjs:
       optional: true
   bin:
     tinybase: bin/cli.js
-  checksum: 316dcc44df8e4687f761fea3110ab060caadc03c1ee0691c5df695257c9a931fafdda6930cb7959cc0507f895e17aa3ebf170822ae6e9e86dde13e85d6a3554e
+  checksum: dc8fea23cf0fd3220ec1bf481ba271f6370f95895573ad51829b40da83a648e73032ebeb82977bde1599c9871008e92caa546265e902c845cb87a5a822a70a0f
   languageName: node
   linkType: hard
 
