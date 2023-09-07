@@ -4487,13 +4487,13 @@ __metadata:
   linkType: hard
 
 "expo-sqlite@file:../../../expo/packages/expo-sqlite::locator=mobile%40workspace%3A.":
-  version: 11.5.0
-  resolution: "expo-sqlite@file:../../../expo/packages/expo-sqlite#../../../expo/packages/expo-sqlite::hash=0a917c&locator=mobile%40workspace%3A."
+  version: 11.6.0
+  resolution: "expo-sqlite@file:../../../expo/packages/expo-sqlite#../../../expo/packages/expo-sqlite::hash=1f2170&locator=mobile%40workspace%3A."
   dependencies:
     "@expo/websql": ^1.0.1
   peerDependencies:
     expo: "*"
-  checksum: fed67185adf7ae1e018a0230bc56f4b92b9473ba3592bf53b928c98fbffb82176a05fc2392a12b4661b18d93b9118d408e025bfc5a57bfcb6630164dab555d56
+  checksum: 9ed8990428d276a7d17d284700776e7bc5a2b5364b5c6f95a11c6cf1a6a08cbc722f5b74c1ce73ef26186d9662d7624b13529c1810d92c03fdd341ea8c4e422b
   languageName: node
   linkType: hard
 

@@ -43,34 +43,41 @@ function TodoList() {
   // TODO: return cleanup
   useEffect(() => {
     initDatabase();
-    const syncedDbPromise = createSyncedDB({
-      dbProvider: dbProvider,
-      transportProvider: defaultConfig.transportProvider,
-    }, dbName, {
-      room: "my-room",
-      url: "ws://localhost:8080/sync",
-    }).then(synced => {
+    const syncedDbPromise = createSyncedDB(
+      {
+        dbProvider: dbProvider,
+        transportProvider: defaultConfig.transportProvider,
+      },
+      dbName,
+      {
+        room: "my-room",
+        url: `ws://${host}:8080/sync`,
+      }
+    ).then((synced) => {
       synced.start();
       return synced;
     });
 
     return () => {
       syncedDbPromise.then((synced) => synced.stop());
-    }
+    };
   }, []);
 
   useCreatePersister(
     store,
     (store) =>
-      createExpoSqlitePersister(store, db, {
-        mode: "tabular",
-        tables: {
-          load: { todo: { tableId: "todo", rowIdColumnName: "id" } },
-          save: { todo: { tableName: "todo", rowIdColumnName: "id" } },
+      createExpoSqlitePersister(
+        store,
+        db,
+        {
+          mode: "tabular",
+          tables: {
+            load: { todo: { tableId: "todo", rowIdColumnName: "id" } },
+            save: { todo: { tableName: "todo", rowIdColumnName: "id" } },
+          },
         },
-      },
-      console.info,
-    ),
+        console.info
+      ),
     [db],
     async (persister) => {
       await persister.startAutoLoad();
