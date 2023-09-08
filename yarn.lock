@@ -2777,10 +2777,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vlcn.io/crsqlite@npm:0.14.0":
-  version: 0.14.0
-  resolution: "@vlcn.io/crsqlite@npm:0.14.0"
-  checksum: 0d78d06e2d6893faf5a1d70ac05317342cf01d46c2b10235f24f4f3fd68cf277df4a179ee7041c265fb47f6fcd5d57b6ab33e285ed40cb733b82a4174efef75c
+"@vlcn.io/crsqlite@npm:0.15.0-next.1":
+  version: 0.15.0-next.1
+  resolution: "@vlcn.io/crsqlite@npm:0.15.0-next.1"
+  checksum: 8fa56a2ae6e69a8b9a1b9086aa5bd9d58f40d78f6b896dfffc774e007ddae3ca6337deb5c839a0573f332ec5b567686dbabf5094e97c1480b67c07b69d981fe3
   languageName: node
   linkType: hard
 
@@ -2803,17 +2803,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vlcn.io/ws-server@npm:0.1.0-next.2":
+"@vlcn.io/ws-common@npm:0.1.0-next.2":
   version: 0.1.0-next.2
-  resolution: "@vlcn.io/ws-server@npm:0.1.0-next.2"
+  resolution: "@vlcn.io/ws-common@npm:0.1.0-next.2"
   dependencies:
-    "@vlcn.io/crsqlite": 0.14.0
-    "@vlcn.io/ws-common": 0.1.0-next.0
+    lib0: ^0.2.73
+  checksum: ac26d92bc63bff769dbe976136ebda1fbcfb85cf478d2e422b36daf4a49c62c7eb436e6ee4779078101f25051baa152d942e80d9265be72b98e2cbda6ef77e80
+  languageName: node
+  linkType: hard
+
+"@vlcn.io/ws-server@npm:0.1.0-next.14":
+  version: 0.1.0-next.14
+  resolution: "@vlcn.io/ws-server@npm:0.1.0-next.14"
+  dependencies:
+    "@vlcn.io/crsqlite": 0.15.0-next.1
+    "@vlcn.io/ws-common": 0.1.0-next.2
     better-sqlite3: ^8.3.0
     throttle-debounce: ^5.0.0
     winston: ^3.10.0
     ws: ^8.13.0
-  checksum: bb564d6055bc2b9380bb443f5cf137ea82fa75073dc196971ff1b0be2bdb5f756e94c1dd28ed0f20447e3b6e453923956985d180ea2635b40b18cef60b107bdb
+  checksum: 7f2c26c118706b5bbaba8e693fb35b6ea04ff11d320b27ae9067253830ad1afe0f3d56036af2720dd67d12715d036b875228677c0b8a1e0d9fbf797215811283
   languageName: node
   linkType: hard
 
@@ -4635,14 +4644,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"expo-sqlite@npm:11.5.0":
+"expo-sqlite@file:../../../expo/packages/expo-sqlite::locator=mobile%40workspace%3Aapps%2Fmobile":
   version: 11.5.0
-  resolution: "expo-sqlite@npm:11.5.0"
+  resolution: "expo-sqlite@file:../../../expo/packages/expo-sqlite#../../../expo/packages/expo-sqlite::hash=005a11&locator=mobile%40workspace%3Aapps%2Fmobile"
   dependencies:
     "@expo/websql": ^1.0.1
   peerDependencies:
     expo: "*"
-  checksum: 42c7a3302d475f80f34355f1b31007458fbf6959f56f6562c982c6d3e32769b16cf5a72143287776a7b9f122eb6c552050659a17c026dd6d550557cd9b171f02
+  checksum: aabdcd5d97e4948768e77fde449ebe674884791dfe06f428578e05c07331edc197f97f3ec30fbf0d130371147d491215d0c242adfc3af814aff1ba13ede3a63d
   languageName: node
   linkType: hard
 
@@ -7058,7 +7067,7 @@ __metadata:
     expo: ^49.0.4
     expo-crypto: ~12.4.1
     expo-splash-screen: ~0.20.4
-    expo-sqlite: 11.5.0
+    expo-sqlite: ../../../expo/packages/expo-sqlite
     expo-status-bar: ~1.6.0
     react: 18.2.0
     react-native: 0.72.3
@@ -8565,7 +8574,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "server@workspace:apps/server"
   dependencies:
-    "@vlcn.io/ws-server": 0.1.0-next.2
+    "@vlcn.io/ws-server": 0.1.0-next.14
     express: ^4.18.2
   languageName: unknown
   linkType: soft

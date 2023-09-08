@@ -4486,14 +4486,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-sqlite@npm:11.5.0":
-  version: 11.5.0
-  resolution: "expo-sqlite@npm:11.5.0"
+"expo-sqlite@file:../../../expo/packages/expo-sqlite::locator=mobile%40workspace%3A.":
+  version: 11.6.0
+  resolution: "expo-sqlite@file:../../../expo/packages/expo-sqlite#../../../expo/packages/expo-sqlite::hash=1f2170&locator=mobile%40workspace%3A."
   dependencies:
     "@expo/websql": ^1.0.1
   peerDependencies:
     expo: "*"
-  checksum: 42c7a3302d475f80f34355f1b31007458fbf6959f56f6562c982c6d3e32769b16cf5a72143287776a7b9f122eb6c552050659a17c026dd6d550557cd9b171f02
+  checksum: 9ed8990428d276a7d17d284700776e7bc5a2b5364b5c6f95a11c6cf1a6a08cbc722f5b74c1ce73ef26186d9662d7624b13529c1810d92c03fdd341ea8c4e422b
   languageName: node
   linkType: hard
 
@@ -6806,12 +6806,12 @@ __metadata:
     expo: ^49.0.4
     expo-crypto: ~12.4.1
     expo-splash-screen: ~0.20.4
-    expo-sqlite: 11.5.0
+    expo-sqlite: ../../../expo/packages/expo-sqlite
     expo-status-bar: ~1.6.0
     react: 18.2.0
     react-native: 0.72.3
     react-native-reanimated: ~3.3.0
-    tinybase: ^4.0.3
+    tinybase: ^4.1.0
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -8828,15 +8828,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinybase@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "tinybase@npm:4.0.3"
+"tinybase@npm:^4.1.0":
+  version: 4.1.1
+  resolution: "tinybase@npm:4.1.1"
   peerDependencies:
     "@sqlite.org/sqlite-wasm": ^3.42.0-build4
     "@vlcn.io/crsqlite-wasm": ^0.14.0
     automerge-repo: ^0.1.0
     prettier: ^2.8.8
     react: ^18.2.0
+    react-dom: ^18.2.0
     sqlite3: ^5.1.6
     yjs: ^13.6.7
   peerDependenciesMeta:
@@ -8850,13 +8851,15 @@ __metadata:
       optional: true
     react:
       optional: true
+    react-dom:
+      optional: true
     sqlite3:
       optional: true
     yjs:
       optional: true
   bin:
     tinybase: bin/cli.js
-  checksum: 193546220a4de764e073384095fda219930a229d894d4345091788f40d910584a26eae435484577f26ac05833346c4705aee13eb964c50c6a4c1deea52af16e4
+  checksum: dd30f8605edcb340e3a374bd991a109c9f60376bdb9f3ca8c7f63a94b4af98e853b3544a17a86bae96f535e112203cc6b8ad32aa5982cbf732f30c87d58c31d9
   languageName: node
   linkType: hard
 

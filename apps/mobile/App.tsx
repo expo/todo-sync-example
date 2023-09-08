@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { TodoRow } from "./app/todo";
 import {
@@ -18,7 +19,7 @@ import {
 } from "tinybase/lib/ui-react";
 import { createExpoSqlitePersister } from "tinybase/lib/persisters/persister-expo-sqlite";
 import { generateRandomTodo, nanoid } from "./app/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { createSyncedDB, defaultConfig } from "@vlcn.io/ws-client";
 import { store } from "./app/store";
 
@@ -33,42 +34,50 @@ export default function App() {
   );
 }
 
+const host = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
+
 function TodoList() {
   const store = useStore();
 
   // TODO: allow enabling/disabling sync
   // TODO: return cleanup
-  const [syncEnabled, setSyncEnabled] = useState(true);
   useEffect(() => {
     initDatabase();
-    const syncedDbPromise = createSyncedDB({
-      dbProvider: dbProvider,
-      transportProvider: defaultConfig.transportProvider,
-    }, dbName, {
-      room: "my-room",
-      url: "ws://localhost:8080/sync",
-    }).then(synced => {
+    const syncedDbPromise = createSyncedDB(
+      {
+        dbProvider: dbProvider,
+        transportProvider: defaultConfig.transportProvider,
+      },
+      dbName,
+      {
+        room: "my-room",
+        url: `ws://${host}:8080/sync`,
+      }
+    ).then((synced) => {
       synced.start();
       return synced;
     });
 
     return () => {
       syncedDbPromise.then((synced) => synced.stop());
-    }
+    };
   }, []);
 
   useCreatePersister(
     store,
     (store) =>
-      createExpoSqlitePersister(store, db, {
-        mode: "tabular",
-        tables: {
-          load: { todo: { tableId: "todo", rowIdColumnName: "id" } },
-          save: { todo: { tableName: "todo", rowIdColumnName: "id" } },
+      createExpoSqlitePersister(
+        store,
+        db,
+        {
+          mode: "tabular",
+          tables: {
+            load: { todo: { tableId: "todo", rowIdColumnName: "id" } },
+            save: { todo: { tableName: "todo", rowIdColumnName: "id" } },
+          },
         },
-      },
-      console.info,
-    ),
+        console.info
+      ),
     [db],
     async (persister) => {
       await persister.startAutoLoad();
@@ -108,15 +117,6 @@ function TodoList() {
               <Text style={styles.btnText}>Delete All Todos</Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            onPress={() => setSyncEnabled((s) => !s)}
-            style={styles.btn}
-          >
-            <Text style={styles.btnText}>
-              {syncEnabled ? "Disable" : "Enable"} Sync
-            </Text>
-          </TouchableOpacity>
         </View>
         <ScrollView
           style={{ width: "100%" }}
