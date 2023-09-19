@@ -4486,14 +4486,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-sqlite@file:../../../expo/packages/expo-sqlite::locator=mobile%40workspace%3A.":
-  version: 11.6.0
-  resolution: "expo-sqlite@file:../../../expo/packages/expo-sqlite#../../../expo/packages/expo-sqlite::hash=1f2170&locator=mobile%40workspace%3A."
+"expo-sqlite@npm:~11.7.1":
+  version: 11.7.1
+  resolution: "expo-sqlite@npm:11.7.1"
   dependencies:
     "@expo/websql": ^1.0.1
   peerDependencies:
     expo: "*"
-  checksum: 9ed8990428d276a7d17d284700776e7bc5a2b5364b5c6f95a11c6cf1a6a08cbc722f5b74c1ce73ef26186d9662d7624b13529c1810d92c03fdd341ea8c4e422b
+  checksum: 4e10bd6166d4f6b4e1d28e113f86f6c52b89aaa02c8f309c4fa6616506af0f78828f3f1a291b09d73729831f0003d85c7c03af9df45d0b4f964664b02287e9b8
   languageName: node
   linkType: hard
 
@@ -6806,7 +6806,7 @@ __metadata:
     expo: ^49.0.4
     expo-crypto: ~12.4.1
     expo-splash-screen: ~0.20.4
-    expo-sqlite: ../../../expo/packages/expo-sqlite
+    expo-sqlite: ~11.7.1
     expo-status-bar: ~1.6.0
     react: 18.2.0
     react-native: 0.72.3
