@@ -11,7 +11,11 @@ import {
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Todo, TodoRow } from "./app/todo";
-import { SQLiteProvider, useSQLiteContext } from "expo-sqlite/next";
+import {
+  SQLiteProvider,
+  addDatabaseChangeListener,
+  useSQLiteContext,
+} from "expo-sqlite/next";
 import { useEffect, useState } from "react";
 import { generateRandomTodo } from "./app/utils";
 import { createSyncedDB, defaultConfig } from "@vlcn.io/ws-client";
@@ -25,9 +29,6 @@ export default function App() {
       dbName={dbName}
       initHandler={initDatabase}
       options={{ enableCRSQLite: true, enableChangeListener: true }}
-      errorHandler={(e) => {
-        console.log(e);
-      }}
     >
       <TodoList />
     </SQLiteProvider>
@@ -40,6 +41,10 @@ function TodoList() {
   const db = useSQLiteContext();
   const [todos, setTodos] = useState<Todo[]>([]);
   const dbProvider = useDBProvider();
+  const addStatement = db.prepareSync(
+    `INSERT INTO todo (text, completed) VALUES (?, ?)`
+  );
+  const deleteStatement = db.prepareSync(`DELETE FROM todo`);
 
   useEffect(() => {
     const syncedDbPromise = createSyncedDB(
@@ -53,7 +58,6 @@ function TodoList() {
         url: `ws://${host}:8080/sync`,
       }
     ).then((synced) => {
-      console.log({ synced });
       synced.start();
       return synced;
     });
@@ -64,17 +68,25 @@ function TodoList() {
   }, []);
 
   useEffect(() => {
-    db.allAsync<Todo>("SELECT * FROM todo", []).then((rows) => {
+    const sub = addDatabaseChangeListener(() => {
+      db.allAsync<Todo>(`SELECT * FROM todo`).then((rows) => {
+        setTodos(rows);
+      });
+    });
+    db.allAsync<Todo>(`SELECT * FROM todo`).then((rows) => {
       setTodos(rows);
     });
+
+    return () => sub.remove();
   }, []);
 
   const addTodo = async () => {
     const newTodo = generateRandomTodo();
-    await db.runAsync(`INSERT INTO todo (text, completed) VALUES (?, ?)`, [
-      newTodo,
-      false,
-    ]);
+    await addStatement.runAsync(newTodo, false);
+  };
+
+  const deleteTodos = async () => {
+    await deleteStatement.runAsync();
   };
 
   return (
@@ -98,9 +110,7 @@ function TodoList() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => {
-              console.log("Delete");
-            }}
+            onPress={deleteTodos}
             style={[styles.btn, { flex: 1 }]}
           >
             <Text style={styles.btnText}>Delete All Todos</Text>

@@ -111,11 +111,12 @@ class SyncedExpoDB implements DB {
   async getLastSeens(): Promise<[Uint8Array, [bigint, number]][]> {
     console.log("getting last seens");
     // TODO: more hexing and unhexing due to lack of blob support
-    // in the expo bindings
+    // // in the expo bindings
     const resultSet = await this.#db.allAsync(
       `SELECT hex("site_id") as "site_id", "version", "seq" FROM crsql_tracked_peers`
     );
     const ret: any = resultSet[0];
+    console.log({ ret });
     if ("error" in ret) {
       throw ret.error;
     }

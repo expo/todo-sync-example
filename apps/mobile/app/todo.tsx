@@ -1,4 +1,5 @@
 import { EvilIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { useSQLiteContext } from "expo-sqlite/next";
 import { Text, Pressable, StyleSheet } from "react-native";
 import Animated, { BounceIn, SlideInRight } from "react-native-reanimated";
 
@@ -16,8 +17,19 @@ type TodoRowProps = {
 };
 
 export function TodoRow({ todo: { id, text, completed } }: TodoRowProps) {
-  const toggleTodo = () => {};
-  const deleteRow = () => {};
+  console.log(id);
+  const db = useSQLiteContext();
+
+  const toggleTodo = async () => {
+    await db.runAsync(`UPDATE todo SET completed = ? WHERE id = ?`, [
+      !completed,
+      id,
+    ]);
+  };
+
+  const deleteRow = async () => {
+    await db.runAsync(`DELETE FROM todo WHERE id = ?`, [id]);
+  };
 
   return (
     <Animated.View entering={SlideInRight}>

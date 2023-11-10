@@ -16,7 +16,7 @@ export const dbName = "test.db";
 // TODO: ideally we can share the schema in a package between client and server
 // this is curently duplicated into /server/schemas/test.sql
 const schema = [
-  `CREATE TABLE IF NOT EXISTS "todo" ("id" PRIMARY KEY, "text", "completed" INTEGER DEFAULT 0);`,
+  `CREATE TABLE IF NOT EXISTS "todo" (id INTEGER PRIMARY KEY ASC, text, completed INTEGER DEFAULT 0);`,
   `SELECT crsql_as_crr('todo');`,
 ];
 
