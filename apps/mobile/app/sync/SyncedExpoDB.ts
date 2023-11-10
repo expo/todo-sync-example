@@ -47,12 +47,8 @@ class SyncedExpoDB implements DB {
       [Number(since[0]), bytesToHex(excludeSites[0])]
     );
 
-    const ret = results[0];
-    if ("error" in ret) {
-      throw ret.error;
-    }
-    console.log(`Pulled ${ret.rows.length} changes since ${since[0]}`);
-    return ret.rows.map((row) => {
+    console.log(`Pulled ${results.length} changes since ${since[0]}`);
+    return results.map((row) => {
       const { table, pk, cid, val, col_version, db_version, cl } = row;
       return [
         table,
@@ -115,7 +111,6 @@ class SyncedExpoDB implements DB {
     const resultSet: any[] = await this.#db.allAsync(
       `SELECT hex("site_id") as site_id, version, seq FROM crsql_tracked_peers`
     );
-    console.log({ resultSet });
     const ret: any = resultSet[0];
     if (ret instanceof Object && "error" in ret) {
       throw ret.error;
