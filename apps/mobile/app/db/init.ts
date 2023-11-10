@@ -2,7 +2,8 @@ import * as SQLite from "expo-sqlite/next";
 import { decode, encode } from "base-64";
 import { createSingletonDbProvider } from "../sync/SyncedExpoDB";
 import { cryb64 } from "@vlcn.io/ws-common";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { DB } from "@vlcn.io/ws-client";
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -20,9 +21,8 @@ const schema = [
   `SELECT crsql_as_crr('todo');`,
 ];
 
-export function useDBProvider() {
-  const db = SQLite.useSQLiteContext();
-  return useRef(
+export function useDBProvider(db: SQLite.Database) {
+  return useCallback(
     createSingletonDbProvider({
       dbName,
       db,
@@ -31,8 +31,9 @@ export function useDBProvider() {
       // but we don't have that in the Expo bindings yet.
       schemaName: "test.sql",
       schemaVersion: cryb64(schema.join("\n")),
-    })
-  ).current;
+    }),
+    [db]
+  );
 }
 
 export function initDatabase(db: SQLite.Database) {

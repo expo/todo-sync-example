@@ -112,15 +112,16 @@ class SyncedExpoDB implements DB {
     console.log("getting last seens");
     // TODO: more hexing and unhexing due to lack of blob support
     // // in the expo bindings
-    const resultSet = await this.#db.allAsync(
-      `SELECT hex("site_id") as "site_id", "version", "seq" FROM crsql_tracked_peers`
+    const resultSet: any[] = await this.#db.allAsync(
+      `SELECT hex("site_id") as site_id, version, seq FROM crsql_tracked_peers`
     );
+    console.log({ resultSet });
     const ret: any = resultSet[0];
-    console.log({ ret });
-    if ("error" in ret) {
+    if (ret instanceof Object && "error" in ret) {
       throw ret.error;
     }
-    return ret.rows.map((row) => {
+
+    return resultSet.map((row) => {
       const { site_id, version, seq } = row;
       return [hexToBytes(site_id), [BigInt(version), seq]];
     });
@@ -158,7 +159,7 @@ export function createSingletonDbProvider({
     if ("error" in ret) {
       throw ret.error;
     }
-    const siteId = hexToBytes(ret.rows[0]["site_id"]);
+    const siteId = hexToBytes(ret["site_id"]);
     console.log({ siteId });
     return new SyncedExpoDB(db, siteId, schemaName, schemaVersion);
   };

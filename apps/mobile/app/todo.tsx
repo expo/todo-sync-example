@@ -17,7 +17,6 @@ type TodoRowProps = {
 };
 
 export function TodoRow({ todo: { id, text, completed } }: TodoRowProps) {
-  console.log(id);
   const db = useSQLiteContext();
 
   const toggleTodo = async () => {

@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   Image,
   TouchableOpacity,
   Platform,
@@ -38,13 +37,9 @@ export default function App() {
 const host = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
 
 function TodoList() {
-  const db = useSQLiteContext();
   const [todos, setTodos] = useState<Todo[]>([]);
-  const dbProvider = useDBProvider();
-  const addStatement = db.prepareSync(
-    `INSERT INTO todo (text, completed) VALUES (?, ?)`
-  );
-  const deleteStatement = db.prepareSync(`DELETE FROM todo`);
+  const db = useSQLiteContext();
+  const dbProvider = useDBProvider(db);
 
   useEffect(() => {
     const syncedDbPromise = createSyncedDB(
@@ -73,6 +68,7 @@ function TodoList() {
         setTodos(rows);
       });
     });
+
     db.allAsync<Todo>(`SELECT * FROM todo`).then((rows) => {
       setTodos(rows);
     });
@@ -82,11 +78,15 @@ function TodoList() {
 
   const addTodo = async () => {
     const newTodo = generateRandomTodo();
-    await addStatement.runAsync(newTodo, false);
+    await db.runAsync(
+      `INSERT INTO todo (text, completed) VALUES (?, ?)`,
+      newTodo,
+      false
+    );
   };
 
   const deleteTodos = async () => {
-    await deleteStatement.runAsync();
+    await db.runAsync(`DELETE FROM todo`);
   };
 
   return (
