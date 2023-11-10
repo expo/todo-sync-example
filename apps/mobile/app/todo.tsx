@@ -1,7 +1,12 @@
 import { EvilIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { useSQLiteContext } from "expo-sqlite/next";
 import { Text, Pressable, StyleSheet } from "react-native";
 import Animated, { BounceIn, SlideInRight } from "react-native-reanimated";
+import {
+  RowProps,
+  useCell,
+  useDelRowCallback,
+  useSetCellCallback,
+} from "tinybase/lib/ui-react";
 
 const AnimatedCheckmark = Animated.createAnimatedComponent(AntDesign);
 const ICON_SIZE = 24;
@@ -12,23 +17,19 @@ export type Todo = {
   completed: boolean;
 };
 
-type TodoRowProps = {
-  todo: Todo;
-};
+export function TodoRow({ tableId, rowId }: RowProps) {
+  const todo = useCell(tableId, rowId, "text");
+  const completed = useCell(tableId, rowId, "completed");
 
-export function TodoRow({ todo: { id, text, completed } }: TodoRowProps) {
-  const db = useSQLiteContext();
+  const toggleTodo = useSetCellCallback(
+    tableId,
+    rowId,
+    "completed",
+    () => (completed === 0 ? 1 : 0),
+    [completed]
+  );
 
-  const toggleTodo = async () => {
-    await db.runAsync(`UPDATE todo SET completed = ? WHERE id = ?`, [
-      !completed,
-      id,
-    ]);
-  };
-
-  const deleteRow = async () => {
-    await db.runAsync(`DELETE FROM todo WHERE id = ?`, [id]);
-  };
+  const deleteRow = useDelRowCallback(tableId, rowId);
 
   return (
     <Animated.View entering={SlideInRight}>
@@ -56,7 +57,7 @@ export function TodoRow({ todo: { id, text, completed } }: TodoRowProps) {
             color="black"
           />
         )}
-        <Text style={styles.title}>{text}</Text>
+        <Text style={styles.title}>{todo}</Text>
 
         <EvilIcons name="trash" size={32} color="red" onPress={deleteRow} />
       </Pressable>

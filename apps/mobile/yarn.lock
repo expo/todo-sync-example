@@ -4642,14 +4642,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-sqlite@npm:~12.0.0":
-  version: 12.0.0
-  resolution: "expo-sqlite@npm:12.0.0"
+"expo-sqlite@npm:~12.1.0":
+  version: 12.1.0
+  resolution: "expo-sqlite@npm:12.1.0"
   dependencies:
     "@expo/websql": ^1.0.1
   peerDependencies:
     expo: "*"
-  checksum: 28c49356a1a7d142b398ef09b92ec75bde840a8cc6ffe594a4127782f4c934a7ff1285a95a959c18fbe53db84fe756d4f34960bee908366be38679430c8080be
+  checksum: c154526714fa9a321095e42d47440b74109e9afdc48693d129db557eedc9aefc1a6b582c87b6a442987f8d3a026410767cc7736939e83f47cd779648274c83e3
   languageName: node
   linkType: hard
 
@@ -6962,7 +6962,7 @@ __metadata:
     expo-build-properties: ~0.10.0
     expo-crypto: ~12.7.0
     expo-splash-screen: ~0.24.0
-    expo-sqlite: ~12.0.0
+    expo-sqlite: ~12.1.0
     expo-status-bar: ~1.9.0
     install: ^0.13.0
     react: 18.2.0

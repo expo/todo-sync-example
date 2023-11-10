@@ -2681,6 +2681,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shopify/flash-list@npm:1.4.3":
+  version: 1.4.3
+  resolution: "@shopify/flash-list@npm:1.4.3"
+  dependencies:
+    recyclerlistview: 4.2.0
+    tslib: 2.4.0
+  peerDependencies:
+    "@babel/runtime": "*"
+    react: "*"
+    react-native: "*"
+  checksum: a74010c70d6692b2140540c89ab094e7879066885bf4350f0216605ddbff332304516b20a0cc0f2b3628e14844607a03fd37ef33e4a2fae958e5fb1a85e4bed1
+  languageName: node
+  linkType: hard
+
 "@sideway/address@npm:^4.1.3":
   version: 4.1.4
   resolution: "@sideway/address@npm:4.1.4"
@@ -4723,17 +4737,19 @@ __metadata:
 "expo-sqlite-cr-sqlite-monorepo-demo@workspace:.":
   version: 0.0.0-use.local
   resolution: "expo-sqlite-cr-sqlite-monorepo-demo@workspace:."
+  dependencies:
+    tinybase: "file:.yalc/tinybase"
   languageName: unknown
   linkType: soft
 
-"expo-sqlite@npm:~12.0.0":
-  version: 12.0.0
-  resolution: "expo-sqlite@npm:12.0.0"
+"expo-sqlite@npm:~12.1.0":
+  version: 12.1.0
+  resolution: "expo-sqlite@npm:12.1.0"
   dependencies:
     "@expo/websql": ^1.0.1
   peerDependencies:
     expo: "*"
-  checksum: 28c49356a1a7d142b398ef09b92ec75bde840a8cc6ffe594a4127782f4c934a7ff1285a95a959c18fbe53db84fe756d4f34960bee908366be38679430c8080be
+  checksum: c154526714fa9a321095e42d47440b74109e9afdc48693d129db557eedc9aefc1a6b582c87b6a442987f8d3a026410767cc7736939e83f47cd779648274c83e3
   languageName: node
   linkType: hard
 
@@ -6386,7 +6402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.debounce@npm:^4.0.8":
+"lodash.debounce@npm:4.0.8, lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
   checksum: a3f527d22c548f43ae31c861ada88b2637eb48ac6aa3eb56e82d44917971b8aa96fbb37aa60efea674dc4ee8c42074f90f7b1f772e9db375435f6c83a19b3bc6
@@ -7146,6 +7162,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.0
     "@babel/plugin-transform-private-methods": ^7.22.5
+    "@shopify/flash-list": 1.4.3
     "@types/react": ~18.2.14
     "@vlcn.io/ws-client": 0.1.0-next.5
     "@vlcn.io/ws-common": 0.1.0-next.0
@@ -7154,7 +7171,7 @@ __metadata:
     expo-build-properties: ~0.10.0
     expo-crypto: ~12.7.0
     expo-splash-screen: ~0.24.0
-    expo-sqlite: ~12.0.0
+    expo-sqlite: ~12.1.0
     expo-status-bar: ~1.9.0
     install: ^0.13.0
     react: 18.2.0
@@ -7949,7 +7966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*":
+"prop-types@npm:*, prop-types@npm:15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8231,6 +8248,20 @@ __metadata:
     source-map: ~0.6.1
     tslib: ^2.0.1
   checksum: 03cc7f57562238ba258d468be67bf7446ce7a707bc87a087891dad15afead46c36e9aaeedf2130e2ab5a465244a9c62bfd4127849761cf8f4085abe2f3e5f485
+  languageName: node
+  linkType: hard
+
+"recyclerlistview@npm:4.2.0":
+  version: 4.2.0
+  resolution: "recyclerlistview@npm:4.2.0"
+  dependencies:
+    lodash.debounce: 4.0.8
+    prop-types: 15.8.1
+    ts-object-utils: 0.0.5
+  peerDependencies:
+    react: ">= 15.2.1"
+    react-native: ">= 0.30.0"
+  checksum: 6cba6a99fb487067c509112b94e3d4d3905d782bbcb7af2cffbd57c601a4650d670e4eee5fec18d195d58ff6ec01a47288c5510379a2f37da3c5fc0a58860441
   languageName: node
   linkType: hard
 
@@ -9317,6 +9348,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinybase@file:.yalc/tinybase::locator=expo-sqlite-cr-sqlite-monorepo-demo%40workspace%3A.":
+  version: 4.4.0
+  resolution: "tinybase@file:.yalc/tinybase#.yalc/tinybase::hash=3031f0&locator=expo-sqlite-cr-sqlite-monorepo-demo%40workspace%3A."
+  peerDependencies:
+    "@sqlite.org/sqlite-wasm": ^3.44.0-build1
+    "@vlcn.io/crsqlite-wasm": ^0.15.2
+    automerge-repo: ^0.1.0
+    partykit: ^0.0.34
+    partysocket: ^0.0.14
+    prettier: ^3.0.3
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    sqlite3: ^5.1.6
+    yjs: ^13.6.7
+  peerDependenciesMeta:
+    "@sqlite.org/sqlite-wasm":
+      optional: true
+    "@vlcn.io/crsqlite-wasm":
+      optional: true
+    automerge-repo:
+      optional: true
+    partykit:
+      optional: true
+    partysocket:
+      optional: true
+    prettier:
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+    sqlite3:
+      optional: true
+    yjs:
+      optional: true
+  bin:
+    tinybase: ./bin/cli.js
+  checksum: 81eeccc982597a10ce65dafd00531781434e10404e3c8001f94e2c2552a75b569a66cbba6176a0a2965163d44aae1e424e1824b576a6a2d21676235ce1f1dd7d
+  languageName: node
+  linkType: hard
+
 "tinybase@npm:^4.1.0":
   version: 4.4.0
   resolution: "tinybase@npm:4.4.0"
@@ -9422,6 +9494,20 @@ __metadata:
   version: 0.1.13
   resolution: "ts-interface-checker@npm:0.1.13"
   checksum: 20c29189c2dd6067a8775e07823ddf8d59a33e2ffc47a1bd59a5cb28bb0121a2969a816d5e77eda2ed85b18171aa5d1c4005a6b88ae8499ec7cc49f78571cb5e
+  languageName: node
+  linkType: hard
+
+"ts-object-utils@npm:0.0.5":
+  version: 0.0.5
+  resolution: "ts-object-utils@npm:0.0.5"
+  checksum: 83c48fbdaba392fb2c01cea53b267ed5538d2bb44fc6c3eecc10bcfabc1780bfa6ec8569b52bbf0140d9b521d9049d5f15884e12286918244d463d854dbc73cb
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 
