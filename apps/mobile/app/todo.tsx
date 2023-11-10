@@ -1,12 +1,6 @@
 import { EvilIcons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Text, Pressable, StyleSheet } from "react-native";
 import Animated, { BounceIn, SlideInRight } from "react-native-reanimated";
-import {
-  RowProps,
-  useCell,
-  useDelRowCallback,
-  useSetCellCallback,
-} from "tinybase/lib/ui-react";
 
 const AnimatedCheckmark = Animated.createAnimatedComponent(AntDesign);
 const ICON_SIZE = 24;
@@ -17,19 +11,13 @@ export type Todo = {
   completed: boolean;
 };
 
-export function TodoRow({ tableId, rowId }: RowProps) {
-  const todo = useCell(tableId, rowId, "text");
-  const completed = useCell(tableId, rowId, "completed");
+type TodoRowProps = {
+  todo: Todo;
+};
 
-  const toggleTodo = useSetCellCallback(
-    tableId,
-    rowId,
-    "completed",
-    () => (completed === 0 ? 1 : 0),
-    [completed]
-  );
-
-  const deleteRow = useDelRowCallback(tableId, rowId);
+export function TodoRow({ todo: { id, text, completed } }: TodoRowProps) {
+  const toggleTodo = () => {};
+  const deleteRow = () => {};
 
   return (
     <Animated.View entering={SlideInRight}>
@@ -57,7 +45,7 @@ export function TodoRow({ tableId, rowId }: RowProps) {
             color="black"
           />
         )}
-        <Text style={styles.title}>{todo}</Text>
+        <Text style={styles.title}>{text}</Text>
 
         <EvilIcons name="trash" size={32} color="red" onPress={deleteRow} />
       </Pressable>
