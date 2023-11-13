@@ -17,7 +17,7 @@ import {
   useDelTableCallback,
   useStore,
 } from "tinybase/lib/ui-react";
-import { createExpoSqlitePersister } from "tinybase/lib/persisters/persister-expo-sqlite";
+import { createExpoSqliteNextPersister } from "tinybase/lib/persisters/persister-expo-sqlite-next";
 import { generateRandomTodo, nanoid } from "./app/utils";
 import { useCallback, useEffect } from "react";
 import { createSyncedDB, defaultConfig } from "@vlcn.io/ws-client";
@@ -66,7 +66,7 @@ function TodoList() {
   useCreatePersister(
     store,
     (store) =>
-      createExpoSqlitePersister(
+      createExpoSqliteNextPersister(
         store,
         db,
         {

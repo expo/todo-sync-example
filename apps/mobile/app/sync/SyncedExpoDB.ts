@@ -1,15 +1,15 @@
 import { DB } from "@vlcn.io/ws-client";
 import { Change, bytesToHex, hexToBytes } from "@vlcn.io/ws-common";
-import { SQLiteDatabase } from "expo-sqlite";
+import { Database, addDatabaseChangeListener } from "expo-sqlite/next";
 
 class SyncedExpoDB implements DB {
-  #db: SQLiteDatabase;
+  #db: Database;
   #siteId: Uint8Array;
   #schemaName: string;
   #schemaVersion: bigint;
 
   constructor(
-    db: SQLiteDatabase,
+    db: Database,
     siteId: Uint8Array,
     schemaName: string,
     schemaVersion: bigint
@@ -26,7 +26,7 @@ class SyncedExpoDB implements DB {
 
   onChange(cb: () => void): () => void {
     console.log("registering db listener...");
-    const subscription = this.#db.onDatabaseChange(cb);
+    const subscription = addDatabaseChangeListener(cb);
     return () => {
       subscription.remove();
     };
@@ -42,24 +42,13 @@ class SyncedExpoDB implements DB {
     localOnly: boolean
   ): Promise<readonly Change[]> {
     console.log("pulling changes");
-    const resultSet = await this.#db.execAsync(
-      [
-        {
-          // Have to do a hex conversion since expo-sqlite doesn't support blobs
-          // 0 as "cl" is a placeholder given cl does not exist in 0.14.0
-
-          sql: `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", NULL, "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
-          args: [Number(since[0]), bytesToHex(excludeSites[0])],
-        },
-      ],
-      true
+    const results: any[] = await this.#db.allAsync(
+      `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", NULL, "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
+      [Number(since[0]), bytesToHex(excludeSites[0])]
     );
-    const ret = resultSet[0];
-    if ("error" in ret) {
-      throw ret.error;
-    }
-    console.log(`Pulled ${ret.rows.length} changes since ${since[0]}`);
-    return ret.rows.map((row) => {
+
+    console.log(`Pulled ${results.length} changes since ${since[0]}`);
+    return results.map((row) => {
       const { table, pk, cid, val, col_version, db_version, cl } = row;
       return [
         table,
@@ -81,7 +70,7 @@ class SyncedExpoDB implements DB {
     end: readonly [bigint, number]
   ): Promise<void> {
     console.log("applying changes");
-    await this.#db.transactionAsync(async (transaction) => {
+    await this.#db.transactionExclusiveAsync(async () => {
       const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id", "cl") VALUES (?, unhex(?), ?, ?, ?, ?, unhex(?), ?)`;
       for (const change of changes) {
         const [table, pk, cid, val, col_version, db_version, _, cl] = change;
@@ -100,10 +89,10 @@ class SyncedExpoDB implements DB {
           Number(cl),
         ];
         console.log(bind);
-        await transaction.executeSqlAsync(sql, bind);
+        await this.#db.runAsync(sql, bind);
         console.log(bind);
       }
-      await transaction.executeSqlAsync(
+      await this.#db.runAsync(
         `INSERT INTO "crsql_tracked_peers" ("site_id", "event", "version", "seq", "tag") VALUES (unhex(?), ?, ?, ?, 0) ON CONFLICT DO UPDATE SET
           "version" = MAX("version", excluded."version"),
           "seq" = CASE "version" > excluded."version" WHEN 1 THEN "seq" ELSE excluded."seq" END`,
@@ -118,21 +107,16 @@ class SyncedExpoDB implements DB {
   async getLastSeens(): Promise<[Uint8Array, [bigint, number]][]> {
     console.log("getting last seens");
     // TODO: more hexing and unhexing due to lack of blob support
-    // in the expo bindings
-    const resultSet = await this.#db.execAsync(
-      [
-        {
-          sql: `SELECT hex("site_id") as "site_id", "version", "seq" FROM crsql_tracked_peers`,
-          args: [],
-        },
-      ],
-      true
+    // // in the expo bindings
+    const resultSet: any[] = await this.#db.allAsync(
+      `SELECT hex("site_id") as site_id, version, seq FROM crsql_tracked_peers`
     );
-    const ret = resultSet[0];
-    if ("error" in ret) {
+    const ret: any = resultSet[0];
+    if (ret instanceof Object && "error" in ret) {
       throw ret.error;
     }
-    return ret.rows.map((row) => {
+
+    return resultSet.map((row) => {
       const { site_id, version, seq } = row;
       return [hexToBytes(site_id), [BigInt(version), seq]];
     });
@@ -147,7 +131,7 @@ class SyncedExpoDB implements DB {
 
 export type SingletonDescriptor = {
   dbName: string;
-  db: SQLiteDatabase;
+  db: Database;
   schemaName: string;
   schemaVersion: bigint;
 };
@@ -163,20 +147,15 @@ export function createSingletonDbProvider({
     if (dbName !== requiredDbName) {
       throw new Error(`The singleton provider only supports ${requiredDbName}`);
     }
-    const resultSet = await db.execAsync(
-      [
-        {
-          sql: `SELECT hex(crsql_site_id()) as site_id`,
-          args: [],
-        },
-      ],
-      true
+    const resultSet = await db.allAsync(
+      `SELECT hex(crsql_site_id()) as site_id`
     );
-    const ret = resultSet[0];
+    const ret: any = resultSet[0];
     if ("error" in ret) {
       throw ret.error;
     }
-    const siteId = hexToBytes(ret.rows[0]["site_id"]);
+    const siteId = hexToBytes(ret["site_id"]);
+    console.log({ siteId });
     return new SyncedExpoDB(db, siteId, schemaName, schemaVersion);
   };
 }

@@ -15,6 +15,16 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.example.todosync"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ]
+    ]
   }
 }

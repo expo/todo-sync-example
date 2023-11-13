@@ -1,4 +1,4 @@
-import { createStore } from 'tinybase';
+import { createStore } from "tinybase";
 
 export const store = createStore().setTablesSchema({
   todo: {
