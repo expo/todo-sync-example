@@ -1,18 +1,18 @@
 import { DB } from "@vlcn.io/ws-client";
 import { Change, bytesToHex, hexToBytes } from "@vlcn.io/ws-common";
-import { Database, addDatabaseChangeListener } from "expo-sqlite/next";
+import { SQLiteDatabase, addDatabaseChangeListener } from "expo-sqlite/next";
 
 class SyncedExpoDB implements DB {
-  #db: Database;
+  #db: SQLiteDatabase;
   #siteId: Uint8Array;
   #schemaName: string;
   #schemaVersion: bigint;
 
   constructor(
-    db: Database,
+    db: SQLiteDatabase,
     siteId: Uint8Array,
     schemaName: string,
-    schemaVersion: bigint
+    schemaVersion: bigint,
   ) {
     this.#db = db;
     this.#siteId = siteId;
@@ -39,17 +39,17 @@ class SyncedExpoDB implements DB {
   async pullChangeset(
     since: readonly [bigint, number],
     excludeSites: readonly Uint8Array[],
-    localOnly: boolean
+    localOnly: boolean,
   ): Promise<readonly Change[]> {
     console.log("pulling changes");
-    const results: any[] = await this.#db.allAsync(
-      `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", NULL, "cl" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
-      [Number(since[0]), bytesToHex(excludeSites[0])]
+    const results: any[] = await this.#db.getAllAsync(
+      `SELECT "table", hex("pk") as "pk", "cid", "val", "col_version", "db_version", NULL, "cl", "seq" FROM crsql_changes WHERE db_version > ? AND site_id IS NOT unhex(?)`,
+      [Number(since[0]), bytesToHex(excludeSites[0])],
     );
 
     console.log(`Pulled ${results.length} changes since ${since[0]}`);
     return results.map((row) => {
-      const { table, pk, cid, val, col_version, db_version, cl } = row;
+      const { table, pk, cid, val, col_version, db_version, cl, seq } = row;
       return [
         table,
         // and then back to a bytes again :/
@@ -60,6 +60,7 @@ class SyncedExpoDB implements DB {
         BigInt(db_version),
         null,
         BigInt(cl),
+        seq,
       ];
     });
   }
@@ -67,13 +68,14 @@ class SyncedExpoDB implements DB {
   async applyChangesetAndSetLastSeen(
     changes: readonly Change[],
     siteId: Uint8Array,
-    end: readonly [bigint, number]
+    end: readonly [bigint, number],
   ): Promise<void> {
     console.log("applying changes");
-    await this.#db.transactionAsync(async () => {
-      const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id", "cl") VALUES (?, unhex(?), ?, ?, ?, ?, unhex(?), ?)`;
+    await this.#db.withExclusiveTransactionAsync(async (txn) => {
+      const sql = `INSERT INTO crsql_changes ("table", "pk", "cid", "val", "col_version", "db_version", "site_id", "cl", "seq") VALUES (?, unhex(?), ?, ?, ?, ?, unhex(?), ?, ?)`;
       for (const change of changes) {
-        const [table, pk, cid, val, col_version, db_version, _, cl] = change;
+        const [table, pk, cid, val, col_version, db_version, _, cl, seq] =
+          change;
         // TODO: expo blob bindings may still not work.. in which case we need to finagle with the bindings and `pk` to get it to work
         // doing these inserts in parallel wouldn't make sense hence awaiting in a loop.
         // also col_version, db_version may need to be coerced to numbers from bigints...
@@ -87,19 +89,20 @@ class SyncedExpoDB implements DB {
           Number(db_version),
           bytesToHex(siteId),
           Number(cl),
+          Number(seq),
         ];
         console.log(bind);
-        await this.#db.runAsync(sql, bind);
+        await txn.runAsync(sql, bind);
         console.log(bind);
       }
-      await this.#db.runAsync(
+      await txn.runAsync(
         `INSERT INTO "crsql_tracked_peers" ("site_id", "event", "version", "seq", "tag") VALUES (unhex(?), ?, ?, ?, 0) ON CONFLICT DO UPDATE SET
           "version" = MAX("version", excluded."version"),
           "seq" = CASE "version" > excluded."version" WHEN 1 THEN "seq" ELSE excluded."seq" END`,
         // TODO: expo doesn't support bigints.
         // This is okish since we'll never actually hit 2^53
         // TODO: hexify siteId? and unhex it in the db?
-        [bytesToHex(siteId), 0, Number(end[0]), end[1]]
+        [bytesToHex(siteId), 0, Number(end[0]), end[1]],
       );
     });
   }
@@ -108,8 +111,8 @@ class SyncedExpoDB implements DB {
     console.log("getting last seens");
     // TODO: more hexing and unhexing due to lack of blob support
     // // in the expo bindings
-    const resultSet: any[] = await this.#db.allAsync(
-      `SELECT hex("site_id") as site_id, version, seq FROM crsql_tracked_peers`
+    const resultSet: any[] = await this.#db.getAllAsync(
+      `SELECT hex("site_id") as site_id, version, seq FROM crsql_tracked_peers`,
     );
     const ret: any = resultSet[0];
     if (ret instanceof Object && "error" in ret) {
@@ -131,7 +134,7 @@ class SyncedExpoDB implements DB {
 
 export type SingletonDescriptor = {
   dbName: string;
-  db: Database;
+  db: SQLiteDatabase;
   schemaName: string;
   schemaVersion: bigint;
 };
@@ -147,8 +150,8 @@ export function createSingletonDbProvider({
     if (dbName !== requiredDbName) {
       throw new Error(`The singleton provider only supports ${requiredDbName}`);
     }
-    const resultSet = await db.allAsync(
-      `SELECT hex(crsql_site_id()) as site_id`
+    const resultSet = await db.getAllAsync(
+      `SELECT hex(crsql_site_id()) as site_id`,
     );
     const ret: any = resultSet[0];
     if ("error" in ret) {
