@@ -1,8 +1,8 @@
-import { createStore } from 'tinybase';
+import { createStore } from "tinybase";
 
 export const store = createStore().setTablesSchema({
   todo: {
-    id: { type: "number" },
+    id: { type: "string" },
     text: { type: "string" },
     completed: { type: "number", default: 0 },
   },

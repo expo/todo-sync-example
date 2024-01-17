@@ -1,4 +1,4 @@
-import { initDatabase, dbName, useDBProvider } from "./app/db/init";
+import { initDatabase } from "./app/db/init";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  Platform,
 } from "react-native";
 import { TodoRow } from "./app/todo";
 import {
@@ -20,7 +19,6 @@ import {
 import { createExpoSqliteNextPersister } from "tinybase/lib/persisters/persister-expo-sqlite-next";
 import { generateRandomTodo, nanoid } from "./app/utils";
 import { useCallback, useEffect } from "react";
-import { createSyncedDB, defaultConfig } from "@vlcn.io/ws-client";
 import { store } from "./app/store";
 import { SQLiteProvider, useSQLiteContext } from "expo-sqlite/next";
 
@@ -30,9 +28,9 @@ const uri =
 export default function App() {
   return (
     <SQLiteProvider
-      dbName={dbName}
-      initHandler={initDatabase}
-      options={{ enableCRSQLite: true, enableChangeListener: true }}
+      databaseName="test.db"
+      onInit={initDatabase}
+      options={{ enableChangeListener: true }}
     >
       <Provider store={store}>
         <TodoList />
@@ -41,34 +39,14 @@ export default function App() {
   );
 }
 
-const host = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
-
 function TodoList() {
-  const store = useStore();
   const db = useSQLiteContext();
-  const dbProvider = useDBProvider(db);
+  const store = useStore();
 
-  // TODO: allow enabling/disabling sync
-  // TODO: return cleanup
   useEffect(() => {
-    const syncedDbPromise = createSyncedDB(
-      {
-        dbProvider: dbProvider,
-        transportProvider: defaultConfig.transportProvider,
-      },
-      dbName,
-      {
-        room: "my-room",
-        url: `ws://${host}:8080/sync`,
-      }
-    ).then((synced) => {
-      synced.start();
-      return synced;
+    db.getAllAsync("SELECT * FROM todo").then((res) => {
+      console.log({ res });
     });
-
-    return () => {
-      syncedDbPromise.then((synced) => synced.stop());
-    };
   }, []);
 
   useCreatePersister(

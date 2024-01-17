@@ -5,8 +5,5 @@
   "workspaces": [
     "apps/*"
   ],
-  "packageManager": "yarn@3.6.1",
-  "dependencies": {
-    "tinybase": "file:.yalc/tinybase"
-  }
+  "packageManager": "yarn@3.6.1"
 }
